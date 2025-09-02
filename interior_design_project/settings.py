@@ -87,6 +87,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "main_app.User"
 
 
 # Password validation
