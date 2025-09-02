@@ -3,15 +3,15 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .models import User , Project
-from .forms import ProjectFrom
+from .forms import ProjectForm, SignUpForm
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
-class SignUpView(FormView):
-    template_name = "registration/sign-up.html"
-    form_class = UserCreationForm
+class SignUpView(CreateView):
+    template_name = "registration/signup.html"
+    form_class = SignUpForm
     success_url = reverse_lazy("login")
 
 class UserIsAdminMixIn(UserPassesTestMixin):
@@ -52,7 +52,7 @@ class ProjectListView(LoginRequiredMixin, UserIsDesignerMixIn, ListView):
 
 class ProjectCreateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
     model = Project
-    form_class = ProjectFrom
+    form_class = ProjectForm
     template_name = 'projects/project-form.html'
     
     def get_success_url(self):

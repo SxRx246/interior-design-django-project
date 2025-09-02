@@ -4,6 +4,20 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    {% comment %} <label for="first_name">First Name</label>
+    <input type="text" name="first_name" id="first_name">
+
+    <label for="last_name">Last Name</label>
+    <input type="text" name="last_name" id="last_name">
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email">
+
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email"> {% endcomment %}
     <button>Log in</button>
   
   </form>
