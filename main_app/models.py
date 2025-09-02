@@ -32,7 +32,7 @@ class User(AbstractUser):
     
 class Project(models.Model):
     name = models.CharField(max_length=150)
-    date = models.DateField()
+    date = models.DateField(null=False)
     description = models.TextField(null = True)
     pictures = models.ImageField(upload_to='projects-pictures/', null=True)
     designer = models.ForeignKey(User.Role.DESIGNER , on_delete=models.CASCADE , related_name='projects')
