@@ -22,11 +22,11 @@ class SignUpForm(UserCreationForm):
     
     # username = forms.CharField(max_length=30, required=True)
     # password = forms.CharField(widget=forms.PasswordInput(), required=True)
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
+    # email = forms.EmailField(required=True)
+    # first_name = forms.CharField(required=True)
+    # last_name = forms.CharField(required=True)
     
     
-    # class Meta:
-    #     model=User
-    #     fields = ['username','first_name', 'last_name', 'email']
+    class Meta:
+        model=User
+        fields = ['username','first_name', 'last_name', 'email']
