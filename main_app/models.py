@@ -29,13 +29,16 @@ class User(AbstractUser):
         # null=True
     )
     
+    class Meta:
+        db_table = 'users'
+    
     
 class Project(models.Model):
     name = models.CharField(max_length=150)
     date = models.DateField(null=False)
     description = models.TextField(null = True)
     pictures = models.ImageField(upload_to='projects-pictures/', null=True)
-    designer = models.ForeignKey(User.Role.DESIGNER , on_delete=models.CASCADE , related_name='projects')
+    designer = models.ForeignKey(User, on_delete=models.CASCADE , related_name='projects')
     # category = models.CharField()
     
     class Meta:

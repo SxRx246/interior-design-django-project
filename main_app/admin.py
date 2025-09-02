@@ -4,7 +4,7 @@ from django.contrib import admin
 
 
 from django.contrib import admin
-from .models import Designer, Project
+from .models import User, Project
 
 
 
@@ -12,5 +12,5 @@ from .models import Designer, Project
 # Register your models here.
 
 
-admin.site.register(Designer)
+admin.site.register(User)
 admin.site.register(Project)
