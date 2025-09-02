@@ -36,12 +36,47 @@ class ToggleAdminRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
         target.save(update_fields=["role"])
         return redirect("user-list")
     
+# Change user to designer
+class ToggleDesignerRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
+
+    def post(self, request, *args, **kwargs):
+        target = get_object_or_404(User, pk=kwargs["pk"])
+
+        target.role = (
+            User.Role.DESIGNER if target.role != User.Role.DESIGNER else User.Role.CUSTOMER
+        )
+        target.save(update_fields=["role"])
+        return redirect("user-list")
+    
     
 # designer views
-class DesignerListView(ListView):
+# class DesignerListView(ListView):
+#     model = User
+#     template_name = 'designers/designer-list.html'
+#     context_object_name = 'designers'
+    
+# class DesignerDetailView(DetailView):
+#     model = User
+#     template_name = 'designers/designer-detail.html'
+#     context_object_name = 'designer'
+
+# user views
+class UserListView(ListView):
     model = User
-    template_name = 'designers/designer-list.html'
-    context_object_name = 'designers'
+    template_name = 'users/user-list.html'
+    context_object_name = 'users'
+    
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'users/user-detail.html'
+    context_object_name = 'user'
+    
+# class UserDeleteView(DeleteView):
+    
+
+# class DesignerCreateview(CreateView):
+#     model = User
+#     template_name = 
  
 # project views
 
