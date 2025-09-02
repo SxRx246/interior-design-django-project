@@ -16,7 +16,8 @@ class Designer(models.Model):
     
 class Project(models.Model):
     name = models.CharField(max_length=150)
-    Date = models.DateField()
+    date = models.DateField()
+    description = models.TextField(null = True)
     pictures = models.ImageField(upload_to='projects-pictures/', null=True)
     designer = models.ForeignKey(Designer , on_delete=models.CASCADE , related_name='projects')
     # category = models.CharField()
