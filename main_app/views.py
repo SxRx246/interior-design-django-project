@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from models import User , Project
 from .forms import ProjectFrom
+from django.urls import reverse_lazy, reverse
 
 # Create your views here.
 
@@ -31,10 +32,19 @@ class ToggleAdminRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
     
 # project views
 
+class ProjectListView(LoginRequiredMixin, UserIsDesignerMixIn, ListView):
+    model=Project
+    template_name = 'projects/project-list.html'
+    context_object_name = 'projects'
+
 class ProjectCreateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
     model = Project
     form_class = ProjectFrom
     template_name = 'projects/project-form.html'
+    
+    def get_success_url(self):
+        return reverse("project-detail", kwargs={"pk": self.object.pk})
+
     
     
 
