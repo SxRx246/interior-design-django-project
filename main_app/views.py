@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .models import User , Project
-from .forms import ProjectForm, SignUpForm
+from .forms import ProjectForm, SignUpForm, UserForm
 from django.urls import reverse_lazy, reverse
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -61,17 +61,25 @@ class ToggleDesignerRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
 #     context_object_name = 'designer'
 
 # user views
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin,ListView):
     model = User
     template_name = 'users/user-list.html'
     context_object_name = 'users'
     
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin,DetailView):
     model = User
     template_name = 'users/user-detail.html'
     context_object_name = 'user'
     
-# class UserDeleteView(DeleteView):
+class UserUpdateView(LoginRequiredMixin,UpdateView):
+    model = User
+    template_name = 'users/user-form.html'
+    form_class = UserForm
+    success_url = reverse_lazy('user-detail')
+    
+class UserDeleteView(LoginRequiredMixin,DeleteView):
+    model = User
+    success_url = reverse_lazy('user-list')
     
 
 # class DesignerCreateview(CreateView):

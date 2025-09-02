@@ -31,7 +31,7 @@ class SignUpForm(UserCreationForm):
         model=User
         fields = ['username','first_name', 'last_name', 'email']
         
-class DeignerForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields =  []
+        fields =  ['username','password','first_name', 'last_name', 'email']
