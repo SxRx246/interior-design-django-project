@@ -20,6 +20,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    profile_picture = models.ImageField(upload_to='user-picture/', null=True)
     class Role(models.TextChoices):
         ADMIN = "admin", "Admin" # value saved in db, value shown to the user
         DESIGNER = "designer", "Designer"
@@ -31,6 +32,7 @@ class User(AbstractUser):
         default=Role.CUSTOMER,
         # null=True
     )
+    
     
     class Meta:
         db_table = 'users'

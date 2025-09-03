@@ -1,8 +1,86 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock  %}
+
 {% block content %}
-{% if user.is_authenticated and user.role == user.Role.ADMIN %}
-{% for user in users  %}{% endfor %}  
+
+<h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4>
+{% if user.role == user.Role.ADMIN %} 
+<h1>Admins List:</h1>
+{% for user in users%}
+    {% if user.role == user.Role.ADMIN%}
+    <a href="{% url 'user-detail' user.id %}">
+        <h2>{{user.first_name}} {{user.last_name}}</h2>
+        {% if user.profile_picture %}
+            <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+        {% else %}
+            <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+        {% endif %}
+    </a>
+    <br>
+        <button>Edit</button>
+        <button>Delete</button>
+    {% endif  %}
+{% endfor %}
+<h1>Designers List:</h1>
+{% for user in users%}
+    {% if user.role == user.Role.DESIGNER%}
+        <a href="{% url 'user-detail' user.id %}">
+            <h2>{{user.first_name}} {{user.last_name}}</h2>
+            {% if user.profile_picture %}
+                <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+            {% else %}
+                <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+            {% endif %}
+        </a>
+        <br>
+        <button>Edit</button>
+        <button>Delete</button>
+    {% endif  %}
+{% endfor %}
+<h1>Customer List:</h1>
+{% for user in users%}
+    {% if user.role == user.Role.CUSTOMER%}
+        <a href="{% url 'user-detail' user.id %}">
+            <h2>{{user.first_name}} {{user.last_name}}</h2>
+            {% if user.profile_picture %}
+                <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+            {% else %}
+                <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+            {% endif %}
+        </a>
+        <br>
+
+        <button>Edit</button>
+        <button>Delete</button>
+    {% endif  %}
+{% endfor %}
+
+{% else %}
+<h1>Designers List</h1>
+
+{% for user in users%}
+    {% if user.role == user.Role.DESIGNER%}
+        <a href="{% url 'user-detail' user.id %}">
+            <h2>{{user.first_name}} {{user.last_name}}</h2>
+                    {% if user.profile_picture %}
+                        <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+                    {% else %}
+                        <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+                    {% endif %}
+        </a>
+        <br>
+
+    {% endif %}
+{% endfor %}  
+
+{% endif %} 
+
 
 {% comment %} <a href="{% url 'admin-panel' %}">Admin</a> {% endcomment %}
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}
 
 {% endblock  %}

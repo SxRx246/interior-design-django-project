@@ -4,7 +4,7 @@
 {% block content %}
     <h1>Sign up</h1>
 
-    <form method="post">
+    <form method='post' enctype = 'multipart/form-data'>
         {% csrf_token %}
         {% comment %} {{form.as_p}} {% endcomment %}
 
@@ -25,6 +25,9 @@
         <br><br>
         <label for="password2">Confirm Password:</label>
         <input name='password2' id='password2' type="password">
+        <br><br>
+        <label for="profile_picture">Profile Picture:</label>
+        <input name='profile_picture' id='profile_picture' type="file">
         <br><br>
         <button>Sign up</button>
     </form>

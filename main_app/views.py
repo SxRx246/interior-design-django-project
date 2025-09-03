@@ -65,6 +65,11 @@ class UserListView(LoginRequiredMixin,ListView):
     model = User
     template_name = 'users/user-list.html'
     context_object_name = 'users'
+    # queryset = User.objects.filter(role = User.Role.DESIGNER)
+    
+    # def get_queryset(self):
+    #     return User.objects.filter(role = self.kwargs['role'])
+    
     
 class UserDetailView(LoginRequiredMixin,DetailView):
     model = User
