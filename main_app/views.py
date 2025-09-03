@@ -65,6 +65,13 @@ class UserListView(LoginRequiredMixin,ListView):
     model = User
     template_name = 'users/user-list.html'
     context_object_name = 'users'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['count_admin'] = User.objects.filter(role=User.Role.ADMIN).count()
+        context['count_designer'] = User.objects.filter(role=User.Role.DESIGNER).count()
+        context['count_customer'] = User.objects.filter(role=User.Role.CUSTOMER).count()
+        return context
     # queryset = User.objects.filter(role = User.Role.DESIGNER)
     
     # def get_queryset(self):
@@ -80,7 +87,8 @@ class UserUpdateView(LoginRequiredMixin,UpdateView):
     model = User
     template_name = 'users/user-form.html'
     form_class = UserForm
-    success_url = reverse_lazy('user-detail')
+    def get_success_url(self):
+        return reverse("user-detail", kwargs={"pk": self.object.pk})
     
 class UserDeleteView(LoginRequiredMixin,DeleteView):
     model = User

@@ -4,13 +4,25 @@
 {% endblock  %}
 
 {% block content %}
+<div class="container" >
     <h1>User Details</h1>
-    <h2>{{user.first_name}} {{user.last_name}}</h2>
-    <h2>{{user.email}}</h2>
-    <h2>{{user.role}}</h2>
     {% if user.profile_picture %}
         <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
     {% else %}
         <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
     {% endif %}
+        <h2>Username: {{user.username}}</h2>
+        <h2>First Name: {{user.first_name}}</h2>
+        <h2>Last Name: {{user.last_name}}</h2>
+        <h2>Email: {{user.email}}</h2>
+        <h2>Role: {{user.role}}</h2>
+
+        <form action="/users/{{user.id}}/edit">
+            <button>Edit</button>
+        </form>
+        <form action="/users/{{user.id}}/delete" method='post'>
+            {% csrf_token %}
+            <button>Delete</button>
+        </form>   
+</div>
 {% endblock  %}

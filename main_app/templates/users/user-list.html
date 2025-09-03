@@ -6,81 +6,123 @@
 {% endblock  %}
 
 {% block content %}
+<div class='container'>
+    <h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4>
+    {% if user.role == user.Role.ADMIN %} 
+    <h1>Admins List:</h1>
+    {% if count_admin != 0 %}
+        {% for user in users%}
+        {% if user.role == user.Role.ADMIN%}
+        <div class='single-user-card'>
+            <a href="{% url 'user-detail' user.id %}">
+                <h2>{{user.first_name}} {{user.last_name}}</h2>
+                {% if user.profile_picture %}
+                    <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+                {% else %}
+                    <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+                {% endif %}
+            </a>
+            <br>
+                <form action="/users/{{user.id}}/edit">
+                    <button>Edit</button>
+                </form>                
+                <form action="/users/{{user.id}}/delete" method='post'>
+                    {% csrf_token %}
+                    <button>Delete</button>
+                </form>    
+                {% endif  %}
+                    
+        </div>
+        {% endfor %}
+    {% else %}
+    <h2>No Admins Yet</h2>
+    {% endif %}
 
-<h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4>
-{% if user.role == user.Role.ADMIN %} 
-<h1>Admins List:</h1>
-{% for user in users%}
-    {% if user.role == user.Role.ADMIN%}
-    <a href="{% url 'user-detail' user.id %}">
-        <h2>{{user.first_name}} {{user.last_name}}</h2>
-        {% if user.profile_picture %}
-            <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-        {% else %}
-            <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-        {% endif %}
-    </a>
-    <br>
-        <button>Edit</button>
-        <button>Delete</button>
-    {% endif  %}
-{% endfor %}
-<h1>Designers List:</h1>
-{% for user in users%}
-    {% if user.role == user.Role.DESIGNER%}
-        <a href="{% url 'user-detail' user.id %}">
-            <h2>{{user.first_name}} {{user.last_name}}</h2>
-            {% if user.profile_picture %}
-                <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-            {% else %}
-                <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-            {% endif %}
-        </a>
-        <br>
-        <button>Edit</button>
-        <button>Delete</button>
-    {% endif  %}
-{% endfor %}
-<h1>Customer List:</h1>
-{% for user in users%}
-    {% if user.role == user.Role.CUSTOMER%}
-        <a href="{% url 'user-detail' user.id %}">
-            <h2>{{user.first_name}} {{user.last_name}}</h2>
-            {% if user.profile_picture %}
-                <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-            {% else %}
-                <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-            {% endif %}
-        </a>
-        <br>
-
-        <button>Edit</button>
-        <button>Delete</button>
-    {% endif  %}
-{% endfor %}
-
-{% else %}
-<h1>Designers List</h1>
-
-{% for user in users%}
-    {% if user.role == user.Role.DESIGNER%}
-        <a href="{% url 'user-detail' user.id %}">
-            <h2>{{user.first_name}} {{user.last_name}}</h2>
+    <h1>Designers List:</h1>
+    {% if count_designer != 0 %}
+        {% for user in users%}
+        {% if user.role == user.Role.DESIGNER%}
+        <div class='single-user-card'>
+                <a href="{% url 'user-detail' user.id %}">
+                    <h2>{{user.first_name}} {{user.last_name}}</h2>
                     {% if user.profile_picture %}
                         <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
                     {% else %}
                         <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
                     {% endif %}
-        </a>
-        <br>
-
+                </a>
+                <br>
+                <form action="/users/{{user.id}}/edit">
+                    <button>Edit</button>
+                </form>                
+                <form action="/users/{{user.id}}/delete" method='post'>
+                    {% csrf_token %}
+                    <button>Delete</button>
+                </form>    
+                
+                {% endif  %}
+        </div>
+        {% endfor %}
+    {% else %}
+    <h2>No Designers Yet</h2>
     {% endif %}
-{% endfor %}  
+    <h1>Customer List:</h1>
+    {% if count_customer != 0 %}
+    {% for user in users%}
+    {% if user.role == user.Role.CUSTOMER%}
+    <div class='single-user-card'>
+            <a href="{% url 'user-detail' user.id %}">
+                <h2>{{user.first_name}} {{user.last_name}}</h2>
+                {% if user.profile_picture %}
+                    <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+                {% else %}
+                    <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+                {% endif %}
+            </a>
+            <br>
 
-{% endif %} 
+            <form action="/users/{{user.id}}/edit">
+                <button>Edit</button>
+            </form>   
+            <form action="/users/{{user.id}}/delete" method='post'>
+                {% csrf_token %}
+                <button>Delete</button>
+            </form>   
+        {% endif  %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <h2>No Customers Yet</h2>
+    {% endif  %}
 
 
+    {% else %}
+    <h1>Designers List</h1>
+    {% if count_designer != 0 %}
+    {% for user in users%}
+    {% if user.role == user.Role.DESIGNER%}
+    <div class='single-user-card'>
+            <a href="{% url 'user-detail' user.id %}">
+                <h2>{{user.first_name}} {{user.last_name}}</h2>
+                        {% if user.profile_picture %}
+                            <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
+                        {% else %}
+                            <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
+                        {% endif %}
+            </a>
+            <br>
+
+        {% endif %}
+    </div>
+    {% endfor %} 
+    {% else %}
+    <h2>No Designers Yet</h2>
+    {% endif %} 
+
+    {% endif %} 
+
+
+</div>
 {% comment %} <a href="{% url 'admin-panel' %}">Admin</a> {% endcomment %}
 {% comment %} {% endif %} {% endcomment %}
-
 {% endblock  %}
