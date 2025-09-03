@@ -5,6 +5,7 @@ from django.views import View
 from .models import User , Project
 from .forms import ProjectForm, SignUpForm, UserForm
 from django.urls import reverse_lazy, reverse
+import os
 # from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
@@ -89,6 +90,16 @@ class UserUpdateView(LoginRequiredMixin,UpdateView):
     form_class = UserForm
     def get_success_url(self):
         return reverse("user-detail", kwargs={"pk": self.object.pk})
+    
+def form_valid(self, form):
+    # Handle image replacement/deletion
+    if 'profile_picture' in form.changed_data:
+        old_instance = self.get_object()
+        if old_instance.profile_picture:
+            if os.path.exists(old_instance.profile_picture.path):
+                os.remove(old_instance.profile_picture.path)
+
+    return super().form_valid(form)
     
 class UserDeleteView(LoginRequiredMixin,DeleteView):
     model = User

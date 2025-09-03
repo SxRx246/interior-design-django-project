@@ -1,8 +1,10 @@
 {% block content %}
     <h1>Edit User Details</h1>
-    <form method='post'>
+    <form method='post' enctype='multipart/form-data'>
         {% csrf_token %}
         {{form.as_p}}
+        <a href="{% url 'password-change' %}">Password Change</a>
+        <br>
         <button>Submit</button>
     </form>
 {% endblock  %}
