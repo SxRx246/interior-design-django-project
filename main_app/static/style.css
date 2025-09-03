@@ -36,3 +36,8 @@ button{
     text-align: center;
     width: 60%;
 }
+
+nav{
+  display: flex;
+  justify-content: center; 
+}

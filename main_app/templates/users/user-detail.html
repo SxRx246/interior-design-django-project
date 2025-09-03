@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 {% load static %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -17,12 +18,19 @@
         <h2>Email: {{user.email}}</h2>
         <h2>Role: {{user.role}}</h2>
 
+        {% if logged_in_user.role == user.Role.ADMIN %}      
         <form action="/users/{{user.id}}/edit">
+            {% csrf_token %}
             <button>Edit</button>
         </form>
         <form action="/users/{{user.id}}/delete" method='post'>
             {% csrf_token %}
             <button>Delete</button>
         </form>   
+        <form action="{% url 'toggle-role' user.pk %}" method="post" >
+                {% csrf_token %}
+                <button type="submit">Change Role</button>
+        </form>
+        {% endif %}
 </div>
 {% endblock  %}

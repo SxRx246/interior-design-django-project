@@ -11,6 +11,7 @@ urlpatterns = [
     path('users/<int:pk>' , views.UserDetailView.as_view() , name='user-detail'),
     path('users/<int:pk>/edit' , views.UserUpdateView.as_view() , name='update-user'),
     path('users/<int:pk>/delete' , views.UserDeleteView.as_view() , name='delete-user'),
+    path('users/<int:pk>/toggle-role/', views.ToggleUserRoleView.as_view(), name='toggle-role'),
     
     path("auth/signup",views.SignUpView.as_view(), name="signup"),
     

@@ -1,4 +1,4 @@
-{% comment %} {% extends "base.html" %} {% endcomment %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block head %}
@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class='container'>
-    <h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4>
+    {% comment %} <h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4> {% endcomment %}
     {% if user.role == user.Role.ADMIN %} 
     <h1>Admins List:</h1>
     {% if count_admin != 0 %}
@@ -22,6 +22,10 @@
                     <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
                 {% endif %}
             </a>
+            <form action="{% url 'toggle-role' user.pk %}" method="post" >
+                {% csrf_token %}
+                <button type="submit">Change Role</button>
+            </form>
             <br>
                 <form action="/users/{{user.id}}/edit">
                     <button>Edit</button>
@@ -52,6 +56,10 @@
                     {% endif %}
                 </a>
                 <br>
+                <form action="{% url 'toggle-role' user.pk %}" method="post" >
+                    {% csrf_token %}
+                    <button type="submit">Change Role</button>
+                </form>
                 <form action="/users/{{user.id}}/edit">
                     <button>Edit</button>
                 </form>                
@@ -80,7 +88,10 @@
                 {% endif %}
             </a>
             <br>
-
+            <form action="{% url 'toggle-role' user.pk %}" method="post" >
+                {% csrf_token %}
+                <button type="submit">Change Role</button>
+            </form>
             <form action="/users/{{user.id}}/edit">
                 <button>Edit</button>
             </form>   

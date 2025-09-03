@@ -1,0 +1,22 @@
+{% block content %}
+<form action="{% url 'project-list'%}">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name">
+    <br>
+    <label for="name">date</label>
+    <input type="date" name="date" id="date">
+    <label for="description">description</label>
+    <input type="text" name="description" id="description">
+    <label for="pictures"></label>
+    <input type="text" name="pictures" id="pictures">
+    <select name="designer" id="designer">
+        {% for user in users%}
+            {% if user.role == user.Role.DESIGNER %}
+                <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <button>Create</button>
+
+</form>
+{% endblock  %}

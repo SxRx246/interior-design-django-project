@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    {% block head %}{% endblock  %}
+  </head>
+  <body>
+    <nav>
+      {% if logged_in_user.is_authenticated %}
+            <h4>Welcome {{logged_in_user.first_name}}, You are{% if logged_in_user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{logged_in_user.role}}</h4>
+         |{% if logged_in_user.role == user.Role.ADMIN %}
+          <a href="{% url 'user-list' %}">Users List</a>
+        {% else %}
+          <a href="{% url 'user-list' %}">Designers List</a>
+        {% endif %}
+
+        <a href="{% url 'project-list' %}">Projects List</a>
+
+        <form action="/auth/logout/" method="post">
+          {% csrf_token %}
+          <button>Logout</button>
+        </form>
+      {% else %}
+        <a href="{% url 'signup' %}">signup</a>
+        <form action="/auth/login/" method="post">
+          {% csrf_token %}
+          <button>login</button>
+        </form>
+      {% endif %}
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+  </body>
+</html>

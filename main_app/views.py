@@ -26,27 +26,41 @@ class UserIsDesignerMixIn(UserPassesTestMixin):
         return  u.role == u.Role.DESIGNER
 
 # Change user to admin
-class ToggleAdminRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
+# class ToggleAdminRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
 
-    def post(self, request, *args, **kwargs):
-        target = get_object_or_404(User, pk=kwargs["pk"])
+#     def post(self, request, *args, **kwargs):
+#         target = get_object_or_404(User, pk=kwargs["pk"])
 
-        target.role = (
-            User.Role.ADMIN if target.role != User.Role.ADMIN else User.Role.CUSTOMER
-        )
-        target.save(update_fields=["role"])
-        return redirect("user-list")
+#         target.role = (
+#             User.Role.ADMIN if target.role != User.Role.ADMIN else User.Role.CUSTOMER
+#         )
+#         target.save(update_fields=["role"])
+#         return redirect("user-list")
     
 # Change user to designer
-class ToggleDesignerRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
+# class ToggleDesignerRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
 
+#     def post(self, request, *args, **kwargs):
+#         target = get_object_or_404(User, pk=kwargs["pk"])
+
+#         target.role = (
+#             User.Role.DESIGNER if target.role != User.Role.DESIGNER else User.Role.CUSTOMER
+#         )
+#         target.save(update_fields=["role"])
+#         return redirect("user-list")
+
+class ToggleUserRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
     def post(self, request, *args, **kwargs):
-        target = get_object_or_404(User, pk=kwargs["pk"])
+        user = get_object_or_404(User, pk=kwargs["pk"])
 
-        target.role = (
-            User.Role.DESIGNER if target.role != User.Role.DESIGNER else User.Role.CUSTOMER
-        )
-        target.save(update_fields=["role"])
+        if user.role == User.Role.CUSTOMER:
+            user.role = User.Role.ADMIN
+        elif user.role == User.Role.ADMIN:
+            user.role = User.Role.DESIGNER
+        else:
+            user.role = User.Role.CUSTOMER
+
+        user.save(update_fields=["role"])
         return redirect("user-list")
     
     
@@ -84,6 +98,15 @@ class UserDetailView(LoginRequiredMixin,DetailView):
     template_name = 'users/user-detail.html'
     context_object_name = 'user'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
+        return context
+    
+    
 class UserUpdateView(LoginRequiredMixin,UpdateView):
     model = User
     template_name = 'users/user-form.html'
@@ -91,15 +114,15 @@ class UserUpdateView(LoginRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse("user-detail", kwargs={"pk": self.object.pk})
     
-def form_valid(self, form):
-    # Handle image replacement/deletion
-    if 'profile_picture' in form.changed_data:
-        old_instance = self.get_object()
-        if old_instance.profile_picture:
-            if os.path.exists(old_instance.profile_picture.path):
-                os.remove(old_instance.profile_picture.path)
+# def form_valid(self, form):
+#     # Handle image replacement/deletion
+#     if 'profile_picture' in form.changed_data:
+#         old_instance = self.get_object()
+#         if old_instance.profile_picture:
+#             if os.path.exists(old_instance.profile_picture.path):
+#                 os.remove(old_instance.profile_picture.path)
 
-    return super().form_valid(form)
+#     return super().form_valid(form)
     
 class UserDeleteView(LoginRequiredMixin,DeleteView):
     model = User
@@ -112,18 +135,28 @@ class UserDeleteView(LoginRequiredMixin,DeleteView):
  
 # project views
 
-class ProjectListView(LoginRequiredMixin, UserIsDesignerMixIn, ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
     model=Project
     template_name = 'projects/project-list.html'
     context_object_name = 'projects'
 
-class ProjectCreateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'projects/project-form.html'
     
     def get_success_url(self):
         return reverse("project-detail", kwargs={"pk": self.object.pk})
+
+    
+
+# class ProjectUpdateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
+#     model = Project
+#     form_class = ProjectForm
+#     template_name = 'projects/project-form.html'
+    
+#     def get_success_url(self):
+#         return reverse("project-detail", kwargs={"pk": self.object.pk})
 
     
     
