@@ -29,13 +29,21 @@
     <label for="designer">Designer</label>
     <br>
     <select name="designer" id="designer">
-        {% for user in users%}
+        {% for user in designers%}
+
             {% comment %} {% if user.role == user.Role.DESIGNER %} {% endcomment %}
                 <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
                 {% comment %} if {% endcomment %}
             {% comment %} {% endif %} {% endcomment %}
         {% endfor %}
     </select>
+
+    {% comment %} <div id="designed-container">
+        {{form.designer.label_tag}}
+        {{form.designer}}
+
+    </div> {% endcomment %}
+
     <br>
     <br>
     <button>Create</button>
