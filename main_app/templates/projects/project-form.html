@@ -2,7 +2,7 @@
 <h1>Adding New Project</h1>
 {% comment %} <form action="{% url 'project-list'%}"> {% endcomment %}
 <form method='post' enctype='multipart/form-data' action="{% url 'project-list'%}">
-
+    {% csrf_token %}
     <label for="name">Name</label>
     <br>
     <input value="{{project.name}}" type="text" name="name" id="name">
@@ -30,10 +30,10 @@
     <br>
     <select name="designer" id="designer">
         {% for user in users%}
-            {% if user.role == user.Role.DESIGNER %}
+            {% comment %} {% if user.role == user.Role.DESIGNER %} {% endcomment %}
                 <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
-                if
-            {% endif %}
+                {% comment %} if {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
         {% endfor %}
     </select>
     <br>

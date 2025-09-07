@@ -140,7 +140,7 @@ class ProjectListView(LoginRequiredMixin, ListView):
     template_name = 'projects/project-list.html'
     context_object_name = 'projects'
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreateView(LoginRequiredMixin, UserIsDesignerMixIn , CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'projects/project-form.html'
@@ -150,14 +150,17 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
     
 
-# class ProjectUpdateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
-#     model = Project
-#     form_class = ProjectForm
-#     template_name = 'projects/project-form.html'
+class ProjectUpdateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = 'projects/project-form.html'
     
-#     def get_success_url(self):
-#         return reverse("project-detail", kwargs={"pk": self.object.pk})
+    def get_success_url(self):
+        return reverse("update-project", kwargs={"pk": self.object.pk})
 
     
+class ProjectDeleteView(LoginRequiredMixin, UserIsDesignerMixIn, DeleteView):
+    model = Project
+    success_url = reverse_lazy('delete-project')
     
 
