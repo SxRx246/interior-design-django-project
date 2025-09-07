@@ -1,11 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock  %}
+
 {% block content %}
-<h1>Adding New Project</h1>
+
+{% comment %} <h1>Adding New Project</h1> {% endcomment %}
+<h1>{% if project %}Edit {{ project.name }} Project{% else %}Adding New Project{% endif %}</h1>
 {% comment %} <form action="{% url 'project-list'%}"> {% endcomment %}
 <form method='post' enctype='multipart/form-data'>
     {% csrf_token %}
     <label for="name">Name</label>
     <br>
-    <input value="{{project.name}}" type="text" name="name" id="name">
+    <input value="{{project.name}}"  type="text" name="name" id="name">
     <br>
     <br>
     <label for="name">Date</label>
@@ -23,20 +32,26 @@
     <input type="text" name="pictures" id="pictures"> {% endcomment %}
     <label for="pictures">Project Picture:</label>
     <br>
-    <input value="{{project.pictures}}" value="{{user.pictures}}" name='pictures' id='pictures' type="file">
+    <input value="{{project.pictures}}" name='pictures' id='pictures' type="file">
     <br>
     <br>
     <label for="designer">Designer</label>
     <br>
-    <select name="designer" id="designer">
-        {% for user in designers%}
+    {% if user.role == user.Role.ADMIN %}
+        <select name="designer" id="designer">
+            {% for designer in designers%}
 
-            {% comment %} {% if user.role == user.Role.DESIGNER %} {% endcomment %}
-                <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
-                {% comment %} if {% endcomment %}
-            {% comment %} {% endif %} {% endcomment %}
-        {% endfor %}
-    </select>
+                {% comment %} {% if user.role == user.Role.DESIGNER %} {% endcomment %}
+                    <option value="{{designer.id}}">{{designer.first_name}} {{designer.last_name}}</option>
+                    {% comment %} if {% endcomment %}
+                {% comment %} {% endif %} {% endcomment %}
+            {% endfor %}
+        </select>
+    {% else %}
+    <input type="text" name="designer" id="designer" value="{{logged_in_user.first_name}} {{logged_in_user.last_name}}" readonly>
+    {% endif %}
+
+
 
     {% comment %} <div id="designed-container">
         {{form.designer.label_tag}}
@@ -46,7 +61,7 @@
 
     <br>
     <br>
-    <button>Create</button>
+    <button type='Submit'>{% if project %} Update {% else %} Create {% endif %} </button>
 
 </form>
 {% endblock  %}

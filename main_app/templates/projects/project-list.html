@@ -1,6 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock  %}
+
 {% block content %}
     <h1>Projects List</h1>
-    <form action="{% url 'create-project'%}">
-        <button>Create</button>
-    </form>
+    {% for project in projects%}
+        {% comment %} <img src="{{project.pictures.url}}" alt=""> {% endcomment %}
+        <a href="/projects/{{project.id}}">
+        {% if project.pictures %}
+        <img class="project-picture" src="{{project.pictures.url}}" alt="{{project.name}}">
+        {% else %}
+        <img class="project-picture" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
+        {% endif %}
+        <h2>{{project.name}} by {{project.designer}}</h2>
+        </a>
+         {% if user.role == user.Role.ADMIN or user.role == user.Role.DESIGNER %}      
+            <form action="/projects/{{project.id}}/edit">
+                {% csrf_token %}
+                <button>Edit</button>
+            </form>
+            <form action="/projects/{{project.id}}/delete" method='post'>
+                {% csrf_token %}
+                <button>Delete</button>
+            </form>  
+        {% endif %} 
+    {% endfor %}
+    {% if user.role == user.Role.ADMIN or user.role == user.Role.DESIGNER %}      
+        <form action="{% url 'create-project'%}">
+            <button>Create</button>
+        </form>
+    {% endif %} 
+
 {% endblock  %}

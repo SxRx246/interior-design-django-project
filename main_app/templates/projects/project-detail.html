@@ -7,13 +7,22 @@
 
 {% block content %}
 <h1>{{project.name}}</h1>
-{% if project.name %}
+{% if project.pictures %}
 <img class="project-picture" src="{{project.pictures.url}}" alt="{{project.name}}">
 {% else %}
 <img class="project-picture" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
 {% endif %}
 <h6>Project posted on: {{project.date}}</h6>
 <p>{{project.description}}</p>
-
+{% if user.role == user.Role.ADMIN or user.role == user.Role.DESIGNER %}      
+    <form action="/projects/{{project.id}}/edit">
+        {% csrf_token %}
+        <button>Edit</button>
+    </form>
+    <form action="/projects/{{project.id}}/delete" method='post'>
+        {% csrf_token %}
+        <button>Delete</button>
+    </form>  
+{% endif %} 
 
 {% endblock  %}

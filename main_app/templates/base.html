@@ -12,6 +12,9 @@
       {% if logged_in_user.is_authenticated %}
             <h4>Welcome {{logged_in_user.first_name}}, You are{% if logged_in_user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{logged_in_user.role}}</h4>
          |{% if logged_in_user.role == user.Role.ADMIN %}
+      {% comment %} {% if user.is_authenticated %}
+            <h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4>
+         |{% if user.role == user.Role.ADMIN %} {% endcomment %}
           <a href="{% url 'user-list' %}">Users List</a>
         {% else %}
           <a href="{% url 'user-list' %}">Designers List</a>

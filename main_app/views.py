@@ -25,6 +25,17 @@ class UserIsDesignerMixIn(UserPassesTestMixin):
         u = self.request.user
         return  u.role == u.Role.DESIGNER
 
+# class GettingLoggedinUser(DetailView):
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["logged_in_user"] = self.request.user
+#         print(self.request.user)
+#         print(self.request.user.role)
+        
+#         return context
+    
+
+
 # Change user to admin
 # class ToggleAdminRoleView(LoginRequiredMixin, UserIsAdminMixIn, View):
 
@@ -86,7 +97,13 @@ class UserListView(LoginRequiredMixin,ListView):
         context['count_admin'] = User.objects.filter(role=User.Role.ADMIN).count()
         context['count_designer'] = User.objects.filter(role=User.Role.DESIGNER).count()
         context['count_customer'] = User.objects.filter(role=User.Role.CUSTOMER).count()
+        
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
         return context
+    
     # queryset = User.objects.filter(role = User.Role.DESIGNER)
     
     # def get_queryset(self):
@@ -114,6 +131,14 @@ class UserUpdateView(LoginRequiredMixin,UpdateView):
     def get_success_url(self):
         return reverse("user-detail", kwargs={"pk": self.object.pk})
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
+        return context
+    
 # def form_valid(self, form):
 #     # Handle image replacement/deletion
 #     if 'profile_picture' in form.changed_data:
@@ -140,10 +165,26 @@ class ProjectListView(LoginRequiredMixin, ListView):
     template_name = 'projects/project-list.html'
     context_object_name = 'projects'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
+        return context
+    
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     model=Project
     template_name = 'projects/project-detail.html'
     context_object_name = 'project'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
+        return context
 
 # class ProjectCreateView(LoginRequiredMixin, UserIsDesignerMixIn , CreateView):
 class ProjectCreateView(LoginRequiredMixin , CreateView):
@@ -155,6 +196,11 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
         context = super().get_context_data(**kwargs)
         desginers = User.objects.filter(role = User.Role.DESIGNER)
         context['designers'] = desginers
+        
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
         return context
     
     def get_success_url(self):
@@ -163,17 +209,27 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
     
 
 # class ProjectUpdateView(LoginRequiredMixin, UserIsDesignerMixIn, CreateView):
-class ProjectUpdateView(LoginRequiredMixin, CreateView):
+class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = ProjectForm
     template_name = 'projects/project-form.html'
-    
     def get_success_url(self):
-        return reverse("update-project", kwargs={"pk": self.object.pk})
+        return reverse("project-detail", kwargs={"pk": self.object.pk})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        desginers = User.objects.filter(role = User.Role.DESIGNER)
+        context['designers'] = desginers
+        
+        context["logged_in_user"] = self.request.user
+        print(self.request.user)
+        print(self.request.user.role)
+        
+        return context
     
-class ProjectDeleteView(LoginRequiredMixin, UserIsDesignerMixIn, DeleteView):
+# class ProjectDeleteView(LoginRequiredMixin, UserIsDesignerMixIn, DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
-    success_url = reverse_lazy('delete-project')
+    success_url = reverse_lazy('project-list')
     
 
