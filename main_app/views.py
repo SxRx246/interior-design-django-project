@@ -139,6 +139,11 @@ class ProjectListView(LoginRequiredMixin, ListView):
     model=Project
     template_name = 'projects/project-list.html'
     context_object_name = 'projects'
+    
+class ProjectDetailView(LoginRequiredMixin, DetailView):
+    model=Project
+    template_name = 'projects/project-detail.html'
+    context_object_name = 'project'
 
 # class ProjectCreateView(LoginRequiredMixin, UserIsDesignerMixIn , CreateView):
 class ProjectCreateView(LoginRequiredMixin , CreateView):

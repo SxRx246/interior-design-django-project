@@ -1,7 +1,7 @@
 {% block content %}
 <h1>Adding New Project</h1>
 {% comment %} <form action="{% url 'project-list'%}"> {% endcomment %}
-<form method='post' enctype='multipart/form-data' action="{% url 'project-list'%}">
+<form method='post' enctype='multipart/form-data'>
     {% csrf_token %}
     <label for="name">Name</label>
     <br>
