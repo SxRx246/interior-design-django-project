@@ -1,21 +1,43 @@
 {% block content %}
-<form action="{% url 'project-list'%}">
+<h1>Adding New Project</h1>
+{% comment %} <form action="{% url 'project-list'%}"> {% endcomment %}
+<form method='post' enctype='multipart/form-data' action="{% url 'project-list'%}">
+
     <label for="name">Name</label>
-    <input type="text" name="name" id="name">
     <br>
-    <label for="name">date</label>
-    <input type="date" name="date" id="date">
-    <label for="description">description</label>
-    <input type="text" name="description" id="description">
-    <label for="pictures"></label>
-    <input type="text" name="pictures" id="pictures">
+    <input value="{{project.name}}" type="text" name="name" id="name">
+    <br>
+    <br>
+    <label for="name">Date</label>
+    <br>
+    <input value="{{project.date}}"  type="date" name="date" id="date">
+    <br>
+    <br>
+    <label for="description">Description</label>
+    <br>
+    <input value="{{project.description}}"  type="text" name="description" id="description">
+    <br>
+    <br>
+    {% comment %} <label for="pictures">Project Picture</label>
+    <br>
+    <input type="text" name="pictures" id="pictures"> {% endcomment %}
+    <label for="pictures">Project Picture:</label>
+    <br>
+    <input value="{{project.pictures}}" value="{{user.pictures}}" name='pictures' id='pictures' type="file">
+    <br>
+    <br>
+    <label for="designer">Designer</label>
+    <br>
     <select name="designer" id="designer">
         {% for user in users%}
             {% if user.role == user.Role.DESIGNER %}
                 <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+                if
             {% endif %}
         {% endfor %}
     </select>
+    <br>
+    <br>
     <button>Create</button>
 
 </form>

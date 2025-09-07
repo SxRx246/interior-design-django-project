@@ -46,7 +46,7 @@ class Project(models.Model):
     date = models.DateField(null=False)
     description = models.TextField(null = True)
     pictures = models.ImageField(upload_to='projects-pictures/', null=True)
-    designer = models.ForeignKey(User, on_delete=models.CASCADE , related_name='projects')
+    designer = models.ForeignKey(User, on_delete=models.CASCADE , related_name='project')
     # category = models.CharField()
     
     class Meta:
