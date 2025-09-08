@@ -38,7 +38,7 @@
     <label for="designer">Designer</label>
     <br>
     <select name="designer" id="designer">
-        {% if user.role == user.Role.ADMIN %}
+    {% if user.role == user.Role.ADMIN %}
             {% for designer in designers%}
 
                 {% comment %} {% if user.role == user.Role.DESIGNER %} {% endcomment %}
@@ -46,7 +46,7 @@
                     {% comment %} if {% endcomment %}
                 {% comment %} {% endif %} {% endcomment %}
             {% endfor %}
-        {% else %}
+    {% else %}
             <option value="{{user.id}}">{{user.first_name}}  {{user.last_name}}</option>
         </select>
     {% comment %} <input type="text" name="designer" id="designer" value="{{logged_in_user.first_name}} {{logged_in_user.last_name}}" readonly> {% endcomment %}
@@ -63,7 +63,7 @@
     <br>
     <br>
 
-        {% if form.errors %}
+    {% if form.errors %}
         <div class="error">
             <ul>
                 {% for field in form %}
@@ -79,6 +79,6 @@
     {% endif %}
 
     <button type='Submit'>{% if project %} Update {% else %} Create {% endif %} </button>
-
+    {% comment %} <button>Update</button> {% endcomment %}
 </form>
 {% endblock  %}

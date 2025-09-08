@@ -162,7 +162,8 @@ class UserDeleteView(LoginRequiredMixin,DeleteView):
 
 class ProjectListView(LoginRequiredMixin, ListView):
     model=Project
-    template_name = 'projects/project-list.html'
+    # template_name = 'projects/project-list.html'
+    template_name = 'loaft-master\project.html'
     context_object_name = 'projects'
     
     def get_context_data(self, **kwargs):
@@ -171,11 +172,18 @@ class ProjectListView(LoginRequiredMixin, ListView):
         print(self.request.user)
         print(self.request.user.role)
         
+        projects = context['projects']
+        mid_point = len(projects) // 2
+        context['left_projects'] = projects[:mid_point]
+        context['right_projects'] = projects[mid_point:]
+        
         return context
+    
     
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     model=Project
-    template_name = 'projects/project-detail.html'
+    # template_name = 'projects/project-detail.html'
+    template_name = 'loaft-master/project-details.html'
     context_object_name = 'project'
     
     def get_context_data(self, **kwargs):
@@ -190,7 +198,8 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 class ProjectCreateView(LoginRequiredMixin , CreateView):
     model = Project
     form_class = ProjectForm
-    template_name = 'projects/project-form.html'
+    template_name = 'loaft-master/project-form.html'
+    # template_name = 'projects/project-form.html'
     
     def form_valid(self, form):
         # You can add additional processing here if needed
@@ -221,7 +230,8 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = ProjectForm
-    template_name = 'projects/project-form.html'
+    template_name = 'loaft-master/project-form.html'
+    # template_name = 'projects/project-form.html'
     def get_success_url(self):
         return reverse("project-detail", kwargs={"pk": self.object.pk})
 

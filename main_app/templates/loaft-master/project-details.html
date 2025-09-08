@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -8,17 +9,18 @@
 	<link rel="icon" href="img/favicon.png" type="image/png">
 	<title>Loaft Interior</title>
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="vendors/linericon/style.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-	<link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="vendors/animate-css/animate.css">
-	<link rel="stylesheet" href="vendors/popup/magnific-popup.css">
-	<link rel="stylesheet" href="vendors/swiper/css/swiper.min.css">
-	<link rel="stylesheet" href="vendors/scroll/jquery.mCustomScrollbar.css">
-	<!-- main css -->
-	<link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/popup/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/scroll/jquery.mCustomScrollbar.css' %}" />
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 
 <body id="project-details">
@@ -142,7 +144,7 @@
 			<div class="row d-flex align-items-center justify-content-center">
 				<div class="col-lg-8 header-left">
 					<div class="">
-						<img class="img-fluid w-100" src="img/banner/common-banner.jpg" alt="">
+						<img class="img-fluid w-100" src="{% static 'img/banner/common-banner.jpg' %}" alt="">
 					</div>
 				</div>
 
@@ -170,38 +172,58 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-6">
 					<div class="service-img">
-						<img class="img-fluid" src="img/project/service1.jpg" alt="">
+						{% comment %} <img class="img-fluid" src="{% static 'img/project/service1.jpg' %}" alt=""> {% endcomment %}
+						{% if project.pictures %}
+						<img class="img-fluid" src="{{project.pictures.url}}" alt="{{project.name}}">
+						{% else %}
+						<img class="img-fluid" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
+						{% endif %}
 					</div>
 				</div>
 				<div class="col-lg-5 offset-lg-1 col-md-6">
 					<!-- single service -->
 					<div class="single-service">
-						<h4>Our Memorable Story</h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+						<br>
+						<h4>{{project.name}}</h4>
+						{% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
 							magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat.</p>
-						<p class="mt">Voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste
-							natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-							inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-							voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
-							nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
-							non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+							consequat.</p> {% endcomment %}
+						<p class="mt">{{project.description}}</p>
 
 						<ul class="list">
-							<li><span>Rating</span>: <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-								 class="fa fa-star"></i></li>
-							<li><span>Client</span>: Envato</li>
-							<li><span>Website</span>: Themeforest.net</li>
-							<li><span>Completed</span>: 17th Nov, 2018</li>
+							{% comment %} <li><span>Rating</span>: <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+								 class="fa fa-star"></i></li> {% endcomment %}
+							<li><span>Designer</span>: {{project.designer}}</li>
+							{% comment %} <li><span>Website</span>: Themeforest.net</li> {% endcomment %}
+							<li><span>Completed</span>: {{project.date}}</li>
 						</ul>
-						<ul class="list social_details">
-							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="#"><i class="fa fa-behance"></i></a></li>
-							<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-							<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-						</ul>
+						{% comment %} <ul class="list social_details"> {% endcomment %}
+							{% comment %} <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter"></i></a></li> {% endcomment %}
+							{% comment %} <li><a href="#"><i class="fa fa-behance"></i></a></li>
+							<li><a href="#"><i class="fa fa-dribbble"></i></a></li> {% endcomment %}
+							{% comment %} <li><a href="#"><i class="fa fa-linkedin"></i></a></li> {% endcomment %}
+						{% comment %} </ul> {% endcomment %}
+						{% comment %} <a href="{% url 'update-project' 'project.id'%}" class="genric-btn primary radius">Primary</a> {% endcomment %}
+
+						{% comment %} <a href="#" class="genric-btn danger radius">Danger</a> {% endcomment %}
+						<br>
+						<div class="row d-flex align-items-center justify-content-between">
+							{% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+							{% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+								<form action="/projects/{{project.id}}/edit">
+									{% csrf_token %}
+									<button class="genric-btn primary radius">Edit</button>
+								</form>
+							{% comment %} </div> {% endcomment %}
+							{% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+								<form action="/projects/{{project.id}}/delete" method='post'>
+									{% csrf_token %}
+									<button class="genric-btn danger radius">Delete</button>
+								</form>  
+							{% comment %} </div> {% endcomment %}
+							{% comment %} </div> {% endcomment %}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -266,22 +288,22 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script src="js/popper.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/stellar.js"></script>
-	<script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
-	<script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
-	<script src="vendors/isotope/isotope-min.js"></script>
-	<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-	<script src="js/jquery.ajaxchimp.min.js"></script>
-	<script src="vendors/counter-up/jquery.waypoints.min.js"></script>
-	<script src="vendors/counter-up/jquery.counterup.js"></script>
-	<script src="js/mail-script.js"></script>
-	<script src="vendors/popup/jquery.magnific-popup.min.js"></script>
-	<script src="vendors/swiper/js/swiper.min.js"></script>
-	<script src="vendors/scroll/jquery.mCustomScrollbar.js"></script>
-	<script src="js/theme.js"></script>
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/stellar.js' %}"></script>
+    <script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/isotope-min.js' %}"></script>
+    <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <script src="{% static 'vendors/popup/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'vendors/swiper/js/swiper.min.js' %}"></script>
+    <script src="{% static 'vendors/scroll/jquery.mCustomScrollbar.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
 </body>
 
 </html>
