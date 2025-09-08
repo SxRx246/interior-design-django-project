@@ -192,6 +192,15 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
     form_class = ProjectForm
     template_name = 'projects/project-form.html'
     
+    def form_valid(self, form):
+        # You can add additional processing here if needed
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # Print form errors to the console for debugging
+        print(form.errors)
+        return super().form_invalid(form)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         desginers = User.objects.filter(role = User.Role.DESIGNER)

@@ -1,6 +1,6 @@
 body{
-    /* background-color: rgb(127, 229, 255); */
-    background-color: rgb(235, 32, 32);
+    background-color: rgb(127, 229, 255);
+    /* background-color: rgb(235, 32, 32); */
 }
 
 #profile-picture{
@@ -44,7 +44,7 @@ nav{
 }
 
 .project-picture{
-    height: 30px;
-    width: 30px;
+    height: 50%;
+    width: 50%;
     border: 2px black solid;
 }

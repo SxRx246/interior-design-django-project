@@ -37,8 +37,8 @@
     <br>
     <label for="designer">Designer</label>
     <br>
-    {% if user.role == user.Role.ADMIN %}
-        <select name="designer" id="designer">
+    <select name="designer" id="designer">
+        {% if user.role == user.Role.ADMIN %}
             {% for designer in designers%}
 
                 {% comment %} {% if user.role == user.Role.DESIGNER %} {% endcomment %}
@@ -46,9 +46,10 @@
                     {% comment %} if {% endcomment %}
                 {% comment %} {% endif %} {% endcomment %}
             {% endfor %}
+        {% else %}
+            <option value="{{user.id}}">{{user.first_name}}  {{user.last_name}}</option>
         </select>
-    {% else %}
-    <input type="text" name="designer" id="designer" value="{{logged_in_user.first_name}} {{logged_in_user.last_name}}" readonly>
+    {% comment %} <input type="text" name="designer" id="designer" value="{{logged_in_user.first_name}} {{logged_in_user.last_name}}" readonly> {% endcomment %}
     {% endif %}
 
 
@@ -61,6 +62,22 @@
 
     <br>
     <br>
+
+        {% if form.errors %}
+        <div class="error">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <button type='Submit'>{% if project %} Update {% else %} Create {% endif %} </button>
 
 </form>
