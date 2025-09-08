@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView, TemplateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .models import User , Project
@@ -240,5 +240,11 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     success_url = reverse_lazy('project-list')
+    
+# class HomepageView(TemplateView):
+#     template_name = 'loaft-master/about-us.html'
+    
+class AboutView(TemplateView):
+    template_name = 'loaft-master/about-us.html'
     
 
