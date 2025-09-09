@@ -157,9 +157,10 @@
 					</p>
 				</div>
 				<div class="page_link">
-					<a href="index.html">Home</a>
-					<a href="#">Work</a>
-					<a href="project.html">Project Details</a>
+					<a href="{% url 'home'%}">Home</a>
+					{% comment %} <a href="#">work</a> {% endcomment %}
+					<a href="{%url 'project-list'%}">Project</a>
+					<a href="{% url 'project-detail' project.id %}">Project Details</a>
 				</div>
 			</div>
 		</div>
@@ -208,12 +209,12 @@
 
 						{% comment %} <a href="#" class="genric-btn danger radius">Danger</a> {% endcomment %}
 						<br>
-						<div class="row d-flex align-items-center justify-content-between">
+						<div class="row d-flex align-items-center justify-content">
 							{% comment %} <div class="button-group-area mt-40"> {% endcomment %}
 							{% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
 								<form action="/projects/{{project.id}}/edit">
 									{% csrf_token %}
-									<button class="genric-btn primary radius">Edit</button>
+									<button class="genric-btn primary radius" style="margin-right: 30px;">Edit</button>
 								</form>
 							{% comment %} </div> {% endcomment %}
 							{% comment %} <div class="col-lg-8 header-right"> {% endcomment %}

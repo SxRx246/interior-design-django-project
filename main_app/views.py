@@ -337,8 +337,8 @@ class HomepageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)    
         projects = context['projects']
-        context['left_projects'] = projects[:2]
-        context['right_projects'] = projects[2:4]
+        context['left_projects'] = projects[:1]
+        context['right_projects'] = projects[1:3]
         return context
     
 class AboutView(TemplateView):

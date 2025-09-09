@@ -89,16 +89,16 @@
 	<section class="home-banner-area relative">
 		<div class="container-fluid p-0">
 			<div class="owl-carousel owl-banner">
-				<div class="row  d-flex align-items-center justify-content-center">
+				{% comment %} <div class="row  d-flex align-items-center justify-content-center">
 					<div class="col-lg-12">
 						<a href="#" class="logo">
-							<img src="img/logo.png" alt="">
+							<img src="{% static 'img/logo.png' %}" alt="">
 						</a>
 					</div>
 
 					<div class="col-lg-8 header-left">
 						<div class="">
-							<img class="img-fluid w-100" src="img/banner/banner-img1.jpg" alt="">
+							<img class="img-fluid w-100" src="{% static 'img/banner/banner-img1.jpg' %}" alt="">
 						</div>
 					</div>
 
@@ -116,11 +116,11 @@
 					<div class="col-lg-12">
 						<a href="#" class="main_btn">
 							Learn More About Precise Design
-							<img src="img/next.png" alt="">
+							<img src="{% static 'img/next.png' %}" alt="">
 						</a>
 					</div>
 
-				</div>
+				</div> {% endcomment %}
 
 				<div class="row  d-flex align-items-center justify-content-center">
 					<div class="col-lg-12">
@@ -131,25 +131,25 @@
 
 					<div class="col-lg-8 header-left">
 						<div class="">
-							<img class="img-fluid w-100" src="img/banner/banner-img1.jpg" alt="">
+							<img class="img-fluid w-100" src="{% static 'img/banner/banner-img1.jpg' %}" alt="">
 						</div>
 					</div>
 
 					<div class="header-right col-lg-4">
 						<h1>
-							Precise <br>
-							Concept design <br>
-							for Posh living
+							Meet <br>
+							the Visionaries <br>
+							Behind<br>
+							 the Spaces  
 						</h1>
 						<p class="pt-20">
-							If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may
-							see some for as low as $.17 each. You may be saying to yourself,
+							At Interior Visionaries, our design philosophy is built on collaboration, creativity, and precision. Each project is the result of a thoughtful process led by our expert designers — professionals who transform ordinary spaces into tailored environments that reflect both function and aesthetic excellence.
 						</p>
 					</div>
 					<div class="col-lg-12">
-						<a href="#" class="main_btn">
-							Learn More About Precise Design
-							<img src="img/next.png" alt="">
+						<a href="{% url 'about-us'%}" class="main_btn">
+							Learn More About Us
+							<img src="{% static 'img/next.png' %}" alt="">
 						</a>
 					</div>
 
@@ -210,9 +210,9 @@
                             </form>  
                             {% comment %} </div> {% endcomment %}
                             {% comment %} </div> {% endcomment %}
-                          </div>
-                        </div>
-                      </div>
+						</div>
+					</div>
+					</div>
                 {% comment %} <a href="#" class="main_btn">
                   Load More Preojects
                   <img src="img/next.png" alt="" />
@@ -284,7 +284,7 @@
 	<!--================ End Project Area =================-->
 
 	<!--================ Start Service Area =================-->
-	<section class="service-area">
+	{% comment %} <section class="service-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-5 col-md-6">
@@ -295,14 +295,14 @@
 							We Offers
 						</h1>
 						<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
-						<img src="img/next.png" alt="">
+						<img src="{% static 'img/next.png' %}" alt="">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-6 col-md-6">
 					<div class="service-img">
-						<img class="img-fluid" src="img/project/service1.jpg" alt="">
+						<img class="img-fluid" src="{% static 'img/project/service1.jpg' %}" alt="">
 					</div>
 				</div>
 				<div class="col-lg-5 offset-lg-1 col-md-6">
@@ -313,7 +313,7 @@
 							see some for as low as $.17 each. You may be saying to yourself.</p>
 						<a href="#" class="main_btn1">
 							View Details
-							<img src="img/cnext.png" alt="">
+							<img src="{% static 'img/cnext.png' %}" alt="">
 						</a>
 					</div>
 					<!-- single service -->
@@ -323,7 +323,7 @@
 							see some for as low as $.17 each. You may be saying to yourself.</p>
 						<a href="#" class="main_btn1">
 							View Details
-							<img src="img/cnext.png" alt="">
+							<img src="{% static 'img/cnext.png' %}" alt="">
 						</a>
 					</div>
 					<!-- single service -->
@@ -333,13 +333,13 @@
 							see some for as low as $.17 each. You may be saying to yourself.</p>
 						<a href="#" class="main_btn1">
 							View Details
-							<img src="img/cnext.png" alt="">
+							<img src="{% static 'img/cnext.png' %}" alt="">
 						</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> {% endcomment %}
 	<!--================ End Service Area =================-->
 
 	<!--================ Start Gallery Service Area =================-->
@@ -349,20 +349,20 @@
 				<div class="col-lg-6 col-md-6 text-right">
 					<div class="main_title">
 						<h1>
-							We are <span>Loaft</span><br>
+							We are <span>Interior Visionaries</span><br>
 							Top Services That <br>
 							We Offers
 						</h1>
 						<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
-						<img src="img/next.png" alt="">
+						<img src="{% static 'img/next.png' %}" alt="">
 					</div>
 					<div class="row">
 						<div class="col-lg-12">
 							<!-- single gallery -->
 							<div class="single-gallery">
-								<img class="img-fluid" src="img/project/gallery1.jpg" alt="">
+								<img class="img-fluid" src="{% static 'img/project/gallery1.jpg' %}" alt="">
 								<div class="light-box">
-									<a href="img/project/gallery1.jpg" class="img-popup">
+									<a href="{% static 'img/project/gallery1.jpg' %}" class="img-popup">
 										<span class="lnr lnr-move"></span>
 									</a>
 								</div>
@@ -371,9 +371,9 @@
 						<div class="col-lg-8 offset-lg-4">
 							<!-- single gallery -->
 							<div class="single-gallery">
-								<img class="img-fluid" src="img/project/gallery3.jpg" alt="">
+								<img class="img-fluid" src="{% static 'img/project/gallery3.jpg' %}" alt="">
 								<div class="light-box">
-									<a href="img/project/gallery3.jpg" class="img-popup">
+									<a href="{% static 'img/project/gallery3.jpg' %}" class="img-popup">
 										<span class="lnr lnr-move"></span>
 									</a>
 								</div>
@@ -386,9 +386,9 @@
 						<div class="col-lg-8">
 							<!-- single gallery -->
 							<div class="single-gallery">
-								<img class="img-fluid" src="img/project/gallery2.jpg" alt="">
+								<img class="img-fluid" src="{% static 'img/project/gallery2.jpg' %}" alt="">
 								<div class="light-box">
-									<a href="img/project/gallery2.jpg" class="img-popup">
+									<a href="{% static 'img/project/gallery2.jpg' %}" class="img-popup">
 										<span class="lnr lnr-move"></span>
 									</a>
 								</div>
@@ -399,7 +399,7 @@
 							<div class="single-gallery">
 								<img class="img-fluid" src="img/project/gallery4.jpg" alt="">
 								<div class="light-box">
-									<a href="img/project/gallery4.jpg" class="img-popup">
+									<a href="{% static 'img/project/gallery4.jpg' %}" class="img-popup">
 										<span class="lnr lnr-move"></span>
 									</a>
 								</div>
@@ -408,34 +408,48 @@
 								<!-- single counter -->
 								<div class="single_counter">
 									<div class="thumb">
-										<img src="img/project/count1.png" alt="">
+										<img src="{% static 'img/project/count1.png' %}" alt="">
 									</div>
 									<div class="info-content">
-										<h4><span class="counter">1990</span></h4>
+										<h4><span class="counter">1353</span></h4>
 										<p>Projects done</p>
 									</div>
 								</div>
 								<!-- single counter -->
 								<div class="single_counter">
 									<div class="thumb">
-										<img src="img/project/count2.png" alt="">
+										<img src="{% static 'img/project/count2.png' %}" alt="">
 									</div>
 									<div class="info-content">
-										<h4><span class="counter">50</span>+</h4>
+										<h4><span class="counter">37</span>+</h4>
 										<p>Expert Members</p>
 									</div>
 								</div>
 								<!-- single counter -->
 								<div class="single_counter">
 									<div class="thumb">
-										<img src="img/project/count3.png" alt="">
+										<img src="{% static 'img/project/count3.png' %}" alt="">
 									</div>
 									<div class="info-content">
-										<h4><span class="counter">25</span>+</h4>
+										<h4><span class="counter">17</span>+</h4>
 										<p>Achievements</p>
 									</div>
 								</div>
 							</div>
+						{% comment %} <div class="col-lg-12"> {% endcomment %}
+							<!-- single gallery -->
+							 <br>
+							<div class="single-gallery">
+								<img class="img-fluid" src="{% static 'img/project/gallery1.jpg' %}" alt="">
+								<div class="light-box">
+									<a href="{% static 'img/project/gallery1.jpg' %}" class="img-popup">
+										<span class="lnr lnr-move"></span>
+									</a>
+								</div>
+							</div>
+							<br>
+
+						{% comment %} </div> {% endcomment %}
 						</div>
 					</div>
 				</div>
@@ -445,7 +459,7 @@
 	<!--================ End Gallery Service Area =================-->
 
 	<!--================ Start Testimonial Area =================-->
-	<section class="testimonial_area">
+	{% comment %} <section class="testimonial_area">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-5">
@@ -488,12 +502,12 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> {% endcomment %}
 
 	<!--================ End Testimonial Area =================-->
 
 	<!--================ Start Blog Area =================-->
-	<section class="blog-area section_gap">
+	{% comment %} <section class="blog-area section_gap">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
@@ -537,8 +551,8 @@
 							</a>
 						</div>
 					</div>
-				</div>
-				<div class="col-lg-6">
+				</div> {% endcomment %}
+				{% comment %} <div class="col-lg-6">
 					<div class="main_title">
 						<h1>
 							We are <span>Loaft</span><br>
@@ -568,12 +582,17 @@
 							</a>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
+				</div> {% endcomment %}
+			{% comment %} </div>
+		</div> {% endcomment %}
+		<br>
+		<br>
+		<br>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-6 offset-lg-6">
+												<br>
+							<br>
 					<div class="cta-area">
 						<div class="row align-items-center justify-content-between">
 							<div class="col-lg-7 col-md-7">
@@ -582,9 +601,9 @@
 							</div>
 							<div class="col-lg-5 col-md-5">
 								<div class="cta-btn">
-									<a href="#" class="main_btn1">
-										Learn More
-										<img src="img/cnext.png" alt="">
+									<a href="{% url 'login'%}" class="main_btn1">
+										JOIN US
+										<img src="{% static 'img/cnext.png' %}" alt="">
 									</a>
 								</div>
 							</div>
@@ -592,8 +611,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</div> 
+	{% comment %} </section> {% endcomment %}
 	<!--================ End Blog Area =================-->
 
 	<!--================ start footer Area  =================-->

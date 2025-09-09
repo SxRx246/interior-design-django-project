@@ -147,9 +147,9 @@
             <p class="pt-20">If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
           </div>
           <div class="page_link">
-            <a href="index.html">Home</a>
-            <a href="#">work</a>
-            <a href="project.html">Project</a>
+            <a href="{% url 'home'%}">Home</a>
+            {% comment %} <a href="#">work</a> {% endcomment %}
+            <a href="{%url 'project-list'%}">Project</a>
           </div>
         </div>
       </div>

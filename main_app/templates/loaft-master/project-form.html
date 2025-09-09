@@ -164,8 +164,11 @@
                     </p>
                 </div>
                 <div class="page_link">
-                    <a href="index.html">Home</a>
-                    <a href="contact.html">Contact Us</a>
+					{% comment %} <a href="{% url 'home'%}">Home</a> {% endcomment %}
+					{% comment %} <a href="#">work</a> {% endcomment %}
+					<a href="{%url 'project-list'%}">Project</a>
+					<a href="{% url 'project-detail' project.id %}">Project Details</a>
+					<a href="{% url 'update-project' project.id %}">Update Project</a>
                 </div>
             </div>
         </div>
