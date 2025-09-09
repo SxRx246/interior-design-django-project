@@ -12,6 +12,12 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ['name', 'date', 'description', 'pictures', 'designer']
         
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+        if date > date.today():
+            raise forms.ValidationError("The project date cannot be in the future.")
+        return date
+        
 # class LoginFrom(forms.ModelForm):
 #     class Meta:
 #         model = User
