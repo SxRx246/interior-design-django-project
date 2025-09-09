@@ -11,6 +11,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['name', 'date', 'description', 'pictures', 'designer']
+        # fields = ['pictures']
         
     def clean_date(self):
         date = self.cleaned_data.get('date')

@@ -6,6 +6,7 @@ from .models import User , Project
 from .forms import ProjectForm, SignUpForm, UserForm
 from django.urls import reverse_lazy, reverse
 import os
+from django.utils import timezone
 # from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
@@ -212,13 +213,18 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        desginers = User.objects.filter(role = User.Role.DESIGNER)
-        context['designers'] = desginers
+        
+        designers = User.objects.filter(role=User.Role.DESIGNER)
+        context['designers'] = designers
         
         context["logged_in_user"] = self.request.user
+
         print(self.request.user)
         print(self.request.user.role)
-        
+
+        date_value = timezone.now()  
+        context['date_value'] = date_value.strftime('%Y-%m-%d')
+
         return context
     
     def get_success_url(self):
@@ -237,13 +243,29 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        desginers = User.objects.filter(role = User.Role.DESIGNER)
-        context['designers'] = desginers
+        
+        designers = User.objects.filter(role=User.Role.DESIGNER)
+        context['designers'] = designers
         
         context["logged_in_user"] = self.request.user
+
         print(self.request.user)
         print(self.request.user.role)
+
+        # date_value = timezone.now()  
+        # context['date_value'] = date_value.strftime('%Y-%m-%d')
         
+        form = context.get('form')
+        if form:
+            date_value = form.initial.get('date') or form['date'].value()
+            if date_value:
+                context['date_value'] = date_value.strftime('%Y-%m-%d') if hasattr(date_value, 'strftime') else date_value
+            else:
+                context['date_value'] = ''
+        else:
+            context['date_value'] = timezone.now().strftime('%Y-%m-%d')  # fallback
+
+
         return context
     
 # class ProjectDeleteView(LoginRequiredMixin, UserIsDesignerMixIn, DeleteView):

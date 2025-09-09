@@ -205,57 +205,82 @@
                 {% endcomment %}
                 {% comment %} id="contactForm" novalidate="novalidate" {% endcomment %}
                 <div class="col-lg-9">
-                    <form class="row contact_form" enctype='multipart/form-data' method="post" >
+                    <form class="row contact_form" enctype='multipart/form-data' method="post">
                         {% csrf_token %}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter project name" value="{{project.name}}">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter project name" value="{{ form.name.value }}">
+                                {% if form.name.errors %}
+                                    <div class="error">{{ form.name.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="date">Date</label>
-                                <input type="date" class="form-control" id="date" name="date" placeholder="Enter complete date" value="{{project.date}}">
+                                <input type="date" class="form-control" id="date" name="date" value="{{ date_value }}">
+                                {% if form.date.errors %}
+                                    <div class="error">{{ form.date.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" name="description" id="description" rows="1" placeholder="Enter description">{{project.description}}</textarea>
+                                <textarea class="form-control" name="description" id="description" rows="1" placeholder="Enter description">{{ form.description.value }}</textarea>
+                                {% if form.description.errors %}
+                                    <div class="error">{{ form.description.errors }}</div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md-6">
-                        {% comment %} </div> {% endcomment %}
-                        {% comment %} <div class="col-md-6"> {% endcomment %}
                             <div class="form-group">
                                 <label for="designer">Designer</label>
                                 <br>
                                 <select name="designer" id="designer">
                                     {% if user.role == user.Role.ADMIN %}
                                         {% for designer in designers %}
-                                            <option value="{{designer.id}}">{{designer.first_name}} {{designer.last_name}}</option>
+                                            <option value="{{ designer.id }}" {% if form.designer.value == designer.id %} selected {% endif %}>
+                                                {{ designer.first_name }} {{ designer.last_name }}
+                                            </option>
                                         {% endfor %}
                                     {% else %}
-                                        <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+                                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
                                     {% endif %}
                                 </select>
+                                {% if form.designer.errors %}
+                                    <div class="error">{{ form.designer.errors }}</div>
+                                {% endif %}
                             </div>
                             <div class="form-group">
                                 <br>
                                 <br>
+                                {% comment %} 
+                                <input type="file" id="pictures" name="pictures" placeholder="Enter pictures">
+                                
+                                {% if project.pictures %}
+                                <p>Current Picture: {{ project.pictures }}</p> <!-- Display the current picture name here -->
+                                {% else %}
+                                <p>No current picture uploaded.</p>
+                                {% endif %} {% endcomment %}
+                                
                                 <label for="pictures">Project Picture:</label>
-                                <input type="file"  id="pictures" name="pictures" placeholder="Enter pictures" value="{{project.pictures}}">
+                                <br>
+                                {{form.pictures}}
+                                {% if form.pictures.errors %}
+                                    <div class="error">{{ form.pictures.errors }}</div>
+                                {% endif %}
                             </div>
                         </div>
-                    {% if form.errors %}
-                        <ul>
-                            {% for field in form %}
-                                {% for error in field.errors %}
+                        {% comment %} {% if form.errors %}
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
                                     <li>{{ error }}</li>
                                 {% endfor %}
-                            {% endfor %}
-                            {% for error in form.non_field_errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+                            </ul>
+                        {% endif %} {% endcomment %}
                         <div class="col-md-12 text-right">
                             <button type="submit" value="submit" class="btn submit_btn">{% if project %} Update {% else %} Create {% endif %}</button>
                         </div>
