@@ -18,6 +18,12 @@ class ProjectForm(forms.ModelForm):
         if date > date.today():
             raise forms.ValidationError("The project date cannot be in the future.")
         return date
+
+    # def clean_pictures(self):
+    #     picture = self.cleaned_data.get('pictures')
+    #     if not picture:
+    #         return 'projects-pictures/black-and-white-illustration-of-a-living-room-vector.jpg'  # must be a valid path in MEDIA_ROOT
+    #     return picture
         
 # class LoginFrom(forms.ModelForm):
 #     class Meta:

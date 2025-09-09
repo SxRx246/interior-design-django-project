@@ -171,7 +171,7 @@
               <img src="{% static 'img/next.png' %}" alt="" />
             </div>
             <!-- single projects -->
-            {% for project in left_projects %}
+          {% for project in left_projects %}
                 <div class="single-project">
                   {% comment %} <img class="img-fluid" src="{% static 'img/project/img1.jpg' %}" alt="" /> {% endcomment %}
 					{% if project.pictures %}
@@ -190,13 +190,34 @@
                       View Details
                       <img src="{% static 'img/cnext.png' %}" alt="" />
                     </a>
+                  {% if user.role == user.Role.ADMIN or user.role == user.Role.DESIGNER %} 
+                    <div class="row d-flex align-items-center justify-content">
+                      {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+                        {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                          <br>
+                          <br>
+                          <form action="/projects/{{project.id}}/edit">
+                            {% csrf_token %}
+                            <button class="genric-btn primary radius">Edit</button>
+                          </form>
+                          {% comment %} </div> {% endcomment %}
+                          {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                            <form action="/projects/{{project.id}}/delete" method='post'>
+                              {% csrf_token %}
+                              <button class="genric-btn danger radius">Delete</button>
+                            </form>  
+                            {% comment %} </div> {% endcomment %}
+                            {% comment %} </div> {% endcomment %}
+                      </div>
+                    {% endif %}
+                    </div>
                   </div>
-                </div>
                 {% comment %} <a href="#" class="main_btn">
                   Load More Preojects
                   <img src="img/next.png" alt="" />
                 </a> {% endcomment %}
             {% endfor %}
+            <br>
           </div>
 
           <div class="col-lg-6 col-md-6">
@@ -220,8 +241,25 @@
                       View Details
                       <img src="{% static 'img/cnext.png' %}" alt="" />
                     </a>
+                    <div class="row d-flex align-items-center justify-content">
+                      {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+                      {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                        <form action="/projects/{{project.id}}/edit">
+                          {% csrf_token %}
+                          <button class="genric-btn primary radius">Edit</button>
+                        </form>
+                      {% comment %} </div> {% endcomment %}
+                      {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                        <form action="/projects/{{project.id}}/delete" method='post'>
+                          {% csrf_token %}
+                          <button class="genric-btn danger radius">Delete</button>
+                        </form>  
+                      {% comment %} </div> {% endcomment %}
+                      {% comment %} </div> {% endcomment %}
+                    </div>
 				</div>
 				</div>
+            <br>
 			{% endfor %}
             <!-- single projects -->
             {% comment %} <div class="single-project">
@@ -237,9 +275,19 @@
                   <img src="{% static 'img/cnext.png' %}" alt="" />
                 </a>
               </div>
-            </div> {% endcomment %}
+              </div> {% endcomment %}
+            </div>
+            
           </div>
-        </div>
+          <div class="row d-flex align-items-center justify-content-center">
+            {% if user.role == user.Role.ADMIN or user.role == user.Role.DESIGNER %}      
+                <form action="{% url 'create-project'%}">
+                    {% comment %} <button class="genric-btn success radius">Add New Project</button> {% endcomment %}
+                    {% comment %} <button class="genric-btn info radius">Add New Project</button> {% endcomment %}
+                    <button class="genric-btn info radius">Add New Project</button>
+                </form>
+            {% endif %} 
+          </div>
       </div>
     </section>
     <!-- ================ End Project Area ================= -->

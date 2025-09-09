@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -8,17 +9,17 @@
 	<link rel="icon" href="img/favicon.png" type="image/png">
 	<title>Loaft Interior</title>
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="vendors/linericon/style.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-	<link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
-	<link rel="stylesheet" href="vendors/animate-css/animate.css">
-	<link rel="stylesheet" href="vendors/popup/magnific-popup.css">
-	<link rel="stylesheet" href="vendors/swiper/css/swiper.min.css">
-	<link rel="stylesheet" href="vendors/scroll/jquery.mCustomScrollbar.css">
-	<!-- main css -->
-	<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/popup/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/scroll/jquery.mCustomScrollbar.css' %}" />
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 
 <body>
@@ -159,96 +160,127 @@
 	<!--================ End banner section ================= -->
 
 	<!--================ Start Project Area =================-->
-	<section class="section_gap project-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-6">
-					<div class="main_title">
-						<h1>
-							We are <span>Loaft</span><br>
-							Here are some of Our <br>
-							<span>Latest Works</span>
-						</h1>
-						<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
-						<img src="img/next.png" alt="">
-					</div>
-					<!-- single projects -->
-					<div class="single-project">
-						<img class="img-fluid" src="img/project/img1.jpg" alt="">
-						<div class="project-details">
-							<p>Smart Kitchen Setup</p>
-							<h4>Smart Kitchen Setup with <br>
-								Vintage Style</h4>
-							<a href="#" class="main_btn1">
-								View Details
-								<img src="img/cnext.png" alt="">
-							</a>
-						</div>
-					</div>
-					<!-- branding -->
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="owl-carousel brand-carousel">
-								<!-- single-brand -->
-								<div class="single-brand-item d-table">
-									<div class="d-table-cell">
-										<img src="img/brands/1.png" alt="">
-									</div>
-								</div>
-								<!-- single-brand -->
-								<div class="single-brand-item d-table">
-									<div class="d-table-cell">
-										<img src="img/brands/2.png" alt="">
-									</div>
-								</div>
-								<!-- single-brand -->
-								<div class="single-brand-item d-table">
-									<div class="d-table-cell">
-										<img src="img/brands/3.png" alt="">
-									</div>
-								</div>
-								<!-- single-brand -->
-								<div class="single-brand-item d-table">
-									<div class="d-table-cell">
-										<img src="img/brands/2.png" alt="">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+<section class="section_gap project-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="main_title">
+              <h1>
+                We are <span>Interior Visionaries</span><br />
+                Here are some of Our <br />
+                <span>Latest Works</span>
+              </h1>
+              <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
+              <img src="{% static 'img/next.png' %}" alt="" />
+            </div>
+            <!-- single projects -->
+          {% for project in left_projects %}
+                <div class="single-project">
+                  {% comment %} <img class="img-fluid" src="{% static 'img/project/img1.jpg' %}" alt="" /> {% endcomment %}
+					{% if project.pictures %}
+						<img class="img-fluid" src="{{project.pictures.url}}" alt="{{project.name}}">
+					{% else %}
+						<img class="img-fluid" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
+					{% endif %}
+                  <div class="project-details">
+                    <p>{{project.designer}}</p>
+                    <h4>
+                      {{project.name}} 
+					  {% comment %} <br />
+                      Vintage Style {% endcomment %}
+                    </h4>
+                    <a href="{% url 'project-detail' project.id %}" class="main_btn1">
+                      View Details
+                      <img src="{% static 'img/cnext.png' %}" alt="" />
+                    </a>
+                    <div class="row d-flex align-items-center justify-content">
+                      {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+                        {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                          <br>
+                          <br>
+                          <form action="/projects/{{project.id}}/edit">
+                            {% csrf_token %}
+                            <button class="genric-btn primary radius">Edit</button>
+                          </form>
+                          {% comment %} </div> {% endcomment %}
+                          {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                            <form action="/projects/{{project.id}}/delete" method='post'>
+                              {% csrf_token %}
+                              <button class="genric-btn danger radius">Delete</button>
+                            </form>  
+                            {% comment %} </div> {% endcomment %}
+                            {% comment %} </div> {% endcomment %}
+                          </div>
+                        </div>
+                      </div>
+                {% comment %} <a href="#" class="main_btn">
+                  Load More Preojects
+                  <img src="img/next.png" alt="" />
+                </a> {% endcomment %}
+            {% endfor %}
+            <br>
+          </div>
 
-				<div class="col-lg-6 col-md-6">
-					<!-- single projects -->
-					<div class="single-project">
-						<img class="img-fluid" src="img/project/img2.jpg" alt="">
-						<div class="project-details">
-							<p>Smart Kitchen Setup</p>
-							<h4>Smart Kitchen Setup with <br>
-								Vintage Style</h4>
-							<a href="#" class="main_btn1">
-								View Details
-								<img src="img/cnext.png" alt="">
-							</a>
-						</div>
-					</div>
-					<!-- single projects -->
-					<div class="single-project">
-						<img class="img-fluid" src="img/project/img3.jpg" alt="">
-						<div class="project-details">
-							<p>Smart Kitchen Setup</p>
-							<h4>Smart Kitchen Setup with <br>
-								Vintage Style</h4>
-							<a href="#" class="main_btn1">
-								View Details
-								<img src="img/cnext.png" alt="">
-							</a>
-						</div>
-					</div>
+          <div class="col-lg-6 col-md-6">
+			{% for project in right_projects %}
+				<!-- single projects -->
+				<div class="single-project">
+				{% comment %} <img class="img-fluid" src="{% static 'img/project/img2.jpg' %}" alt="" /> {% endcomment %}
+				{% if project.pictures %}
+					<img class="img-fluid" src="{{project.pictures.url}}" alt="{{project.name}}">
+				{% else %}
+					<img class="img-fluid" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
+				{% endif %}
+				<div class="project-details">
+					<p>{{project.designer}}</p>
+					<h4>
+					{{project.name}}
+					 {% comment %} <br />
+					Vintage Style {% endcomment %}
+					</h4>
+                    <a href="{% url 'project-detail' project.id %}" class="main_btn1">
+                      View Details
+                      <img src="{% static 'img/cnext.png' %}" alt="" />
+                    </a>
+                    <div class="row d-flex align-items-center justify-content">
+                      {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+                      {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                        <form action="/projects/{{project.id}}/edit">
+                          {% csrf_token %}
+                          <button class="genric-btn primary radius">Edit</button>
+                        </form>
+                      {% comment %} </div> {% endcomment %}
+                      {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                        <form action="/projects/{{project.id}}/delete" method='post'>
+                          {% csrf_token %}
+                          <button class="genric-btn danger radius">Delete</button>
+                        </form>  
+                      {% comment %} </div> {% endcomment %}
+                      {% comment %} </div> {% endcomment %}
+                    </div>
 				</div>
-			</div>
-		</div>
-	</section>
+				</div>
+            <br>
+			{% endfor %}
+            <!-- single projects -->
+            {% comment %} <div class="single-project">
+              <img class="img-fluid" src="{% static 'img/project/img3.jpg' %}" alt="" />
+              <div class="project-details">
+                <p>Smart Kitchen Setup</p>
+                <h4>
+                  Smart Kitchen Setup with <br />
+                  Vintage Style
+                </h4>
+                <a href="#" class="main_btn1">
+                  View Details
+                  <img src="{% static 'img/cnext.png' %}" alt="" />
+                </a>
+              </div>
+            </div> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </section>
 	<!--================ End Project Area =================-->
 
 	<!--================ Start Service Area =================-->
@@ -621,22 +653,22 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script src="js/popper.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/stellar.js"></script>
-	<script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
-	<script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
-	<script src="vendors/isotope/isotope-min.js"></script>
-	<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-	<script src="js/jquery.ajaxchimp.min.js"></script>
-	<script src="vendors/counter-up/jquery.waypoints.min.js"></script>
-	<script src="vendors/counter-up/jquery.counterup.js"></script>
-	<script src="js/mail-script.js"></script>
-	<script src="vendors/popup/jquery.magnific-popup.min.js"></script>
-	<script src="vendors/swiper/js/swiper.min.js"></script>
-	<script src="vendors/scroll/jquery.mCustomScrollbar.js"></script>
-	<script src="js/theme.js"></script>
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/stellar.js' %}"></script>
+    <script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/isotope-min.js' %}"></script>
+    <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <script src="{% static 'vendors/popup/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'vendors/swiper/js/swiper.min.js' %}"></script>
+    <script src="{% static 'vendors/scroll/jquery.mCustomScrollbar.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
 </body>
 
 </html>

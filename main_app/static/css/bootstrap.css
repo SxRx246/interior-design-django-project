@@ -2690,6 +2690,7 @@ fieldset:disabled a.btn {
     box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .5)
 }
 
+
 .btn-light {
     color: #212529;
     background-color: #f8f9fa;
@@ -9310,5 +9311,6 @@ a.text-dark:hover {
         border-color: #dee2e6
     }
 }
+
 
 /*# sourceMappingURL=bootstrap.min.css.map */

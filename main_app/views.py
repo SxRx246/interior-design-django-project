@@ -211,6 +211,22 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
         print(form.errors)
         return super().form_invalid(form)
     
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+        
+    #     designers = User.objects.filter(role=User.Role.DESIGNER)
+    #     context['designers'] = designers
+        
+    #     context["logged_in_user"] = self.request.user
+
+    #     print(self.request.user)
+    #     print(self.request.user.role)
+
+    #     date_value = timezone.now()  
+    #     context['date_value'] = date_value.strftime('%Y-%m-%d')
+
+    #     return context
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -222,8 +238,34 @@ class ProjectCreateView(LoginRequiredMixin , CreateView):
         print(self.request.user)
         print(self.request.user.role)
 
-        date_value = timezone.now()  
-        context['date_value'] = date_value.strftime('%Y-%m-%d')
+        # date_value = timezone.now()  
+        # context['date_value'] = date_value.strftime('%Y-%m-%d')
+        
+        form = context.get('form')
+
+        if form:
+            # Try to get a valid date from initial or bound data
+            date_initial = form.initial.get('date')
+            date_bound = form['date'].value()
+
+            # Prefer the initial date, fall back to bound value if needed
+            date_value = date_initial if date_initial else date_bound
+
+            # Only format if we have a meaningful value (not None or empty string)
+            if date_value:
+                # If it's a date object, format it; if string, pass as-is
+                context['date_value'] = (
+                    date_value.strftime('%Y-%m-%d')
+                    if hasattr(date_value, 'strftime')
+                    else date_value
+                )
+            else:
+                # Keep the date input empty if no value is set
+                context['date_value'] = ''
+        else:
+            # If no form exists, use today's date as a fallback
+            context['date_value'] = timezone.now().strftime('%Y-%m-%d')
+
 
         return context
     
@@ -256,14 +298,29 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         # context['date_value'] = date_value.strftime('%Y-%m-%d')
         
         form = context.get('form')
+
         if form:
-            date_value = form.initial.get('date') or form['date'].value()
+            # Try to get a valid date from initial or bound data
+            date_initial = form.initial.get('date')
+            date_bound = form['date'].value()
+
+            # Prefer the initial date, fall back to bound value if needed
+            date_value = date_initial if date_initial else date_bound
+
+            # Only format if we have a meaningful value (not None or empty string)
             if date_value:
-                context['date_value'] = date_value.strftime('%Y-%m-%d') if hasattr(date_value, 'strftime') else date_value
+                # If it's a date object, format it; if string, pass as-is
+                context['date_value'] = (
+                    date_value.strftime('%Y-%m-%d')
+                    if hasattr(date_value, 'strftime')
+                    else date_value
+                )
             else:
+                # Keep the date input empty if no value is set
                 context['date_value'] = ''
         else:
-            context['date_value'] = timezone.now().strftime('%Y-%m-%d')  # fallback
+            # If no form exists, use today's date as a fallback
+            context['date_value'] = timezone.now().strftime('%Y-%m-%d')
 
 
         return context
@@ -273,8 +330,16 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     success_url = reverse_lazy('project-list')
     
-# class HomepageView(TemplateView):
-#     template_name = 'loaft-master/about-us.html'
+class HomepageView(ListView):
+    model = Project
+    template_name = 'loaft-master/index.html'
+    context_object_name = 'projects'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)    
+        projects = context['projects']
+        context['left_projects'] = projects[:2]
+        context['right_projects'] = projects[2:4]
+        return context
     
 class AboutView(TemplateView):
     template_name = 'loaft-master/about-us.html'

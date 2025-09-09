@@ -27,5 +27,6 @@ urlpatterns = [
     path('projects/<int:pk>/delete', views.ProjectDeleteView.as_view(), name='delete-project'),
     
     path('about/' , views.AboutView.as_view() , name='about-us'),
+    path('home/' , views.HomepageView.as_view() , name='home'),
     
 ]
