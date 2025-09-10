@@ -134,7 +134,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "user-list"       # after successful login
+LOGIN_REDIRECT_URL = "project-list"       # after successful login
 LOGOUT_REDIRECT_URL = "login"     # after logout
 
 
