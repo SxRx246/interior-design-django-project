@@ -1,34 +1,85 @@
 {% comment %} {% extends "base.html" %} {% endcomment %}
-
+{% load static %}  
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+{% endblock  %}
 
 {% block content %}
-    <h1>Sign up</h1>
+{% include "base.html" %}
+<div class="wrapper">
+    <div class="title-text">
+        {% comment %} <div class="title login">Login Form</div> {% endcomment %}
+        <div class="title signup">Signup Form</div>
+    </div>
+    <div class="form-container">
+        {% comment %} <div class="slide-controls">
+          <input type="radio" name="slide" id="login" checked>
+          <input type="radio" name="slide" id="signup">
+          <label for="login" class="slide login">Login</label>
+          <label for="signup" class="slide signup">Signup</label>
+        <div class="slider-tab"></div>
+        </div> {% endcomment %}
+        <div class="form-inner">
+            {% comment %} 
+                <label for="username">Username:</label>
+                <input name='username' id='username' type="text">
+                <br><br>
+                <label for="first_name">First Name:</label>
+                <input name='first_name' id='first_name' type="text">
+                <br><br>
+                <label for="last_name">Last Name:</label>
+                <input name='last_name' id='last_name' type="text">
+                <br><br>
+                <label for="email">Email:</label>
+                <input name='email' id='email' type="text">
+                <br><br>
+                <label for="password1">Password:</label>
+                <input name='password1' id='password1' type="password">
+                <br><br>
+                <label for="password2">Confirm Password:</label>
+                <input name='password2' id='password2' type="password">
+                <br><br>
+                <label for="profile_picture">Profile Picture:</label>
+                <input name='profile_picture' id='profile_picture' type="file">
+                <br><br>
+                <button>Sign up</button>
+            </form>  {% endcomment %}
 
-    <form method='post' enctype = 'multipart/form-data'>
-        {% csrf_token %}
-        {% comment %} {{form.as_p}} {% endcomment %}
+            <form method='post' enctype = 'multipart/form-data' class="signup">
+                {% csrf_token %}
+                <div class="field" style="margin-top: 40px;">
+                    {% comment %} <input type="text" placeholder="Email Address" required> {% endcomment %}
+                    <input name='username' id='username' type="text" placeholder="Username" required>
+                </div>
+                <div class="field">
+                    <input name='first_name' id='first_name' type="text" placeholder="First Name" required>
+                </div>
+                <div class="field">
+                    <input name='last_name' id='last_name' type="text" placeholder="Last Name" required>
+                </div>
+                <div class="field">
+                    <input name='password1' id='password1' type="password" placeholder="Password" required>
+                </div>
+                <div class="field">
+                    <input name='password2' id='password2' type="password" placeholder="Confirm password" required>
+                </div>
+               <div class="file-upload-wrapper">
+                <input type="file" id="profile_picture" name="profile_picture" />
+                <label for="profile_picture" class="file-upload-btn">
+                    Upload Profile Picture <span class="upload-icon">&#8682;</span>
+                </label>
+                </div>
 
-        <label for="username">Username:</label>
-        <input name='username' id='username' type="text">
-        <br><br>
-        <label for="first_name">First Name:</label>
-        <input name='first_name' id='first_name' type="text">
-        <br><br>
-        <label for="last_name">Last Name:</label>
-        <input name='last_name' id='last_name' type="text">
-        <br><br>
-        <label for="email">Email:</label>
-        <input name='email' id='email' type="text">
-        <br><br>
-        <label for="password1">Password:</label>
-        <input name='password1' id='password1' type="password">
-        <br><br>
-        <label for="password2">Confirm Password:</label>
-        <input name='password2' id='password2' type="password">
-        <br><br>
-        <label for="profile_picture">Profile Picture:</label>
-        <input name='profile_picture' id='profile_picture' type="file">
-        <br><br>
-        <button>Sign up</button>
-    </form>
+                {% comment %} <br> {% endcomment %}
+                <div class="field btn">
+                    <div class="btn-layer"></div>
+                    <input type="submit" value="Signup">
+                </div>
+                <div class="signup-link">Already have an account?  <a href="{% url 'login'%}">Login</a></div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock  %}

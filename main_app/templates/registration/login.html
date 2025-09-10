@@ -1,9 +1,18 @@
+{% load static %}
+
 <html>
+  {% comment %} {% block head %} {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+  {% comment %} {% endblock  %} {% endcomment %}
 <body>
-  <h1>Login</h1>
+  {% comment %} {% block content %} {% endcomment %}
+  
+  {% include "base.html" %}
+  {% comment %} {% endblock  %} {% endcomment %}
+  {% comment %} <h1>Login</h1>
   <form method="post">
     {% csrf_token %}
-    {% comment %} {{ form.as_p }} {% endcomment %}
+    {{ form.as_p }}
 
     <label for="username">Username</label>
     <input type="text" name="username" id="username">
@@ -15,6 +24,45 @@
     <br>
     <button>Log in</button>
   
-  </form>
+  </form> {% endcomment %}
+  
+  <div class="wrapper">
+        <div class="title-text">
+          <div class="title login">Login Form</div>
+          {% comment %} <div class="title signup">Signup Form</div> {% endcomment %}
+        </div>
+        <div class="form-container">
+          {% comment %} <div class="slide-controls">
+            <input type="radio" name="slide" id="login" checked>
+            <input type="radio" name="slide" id="signup">
+            <label for="login" class="slide login">Login</label>
+            <label for="signup" class="slide signup">Signup</label>
+            <div class="slider-tab"></div>
+          </div> {% endcomment %}
+          <div class="form-inner">
+            <form method="post" class="login">
+              {% csrf_token %}
+              <div class="field" style="margin-top: 40px;">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                {% comment %} <input type="text" name="username" id="username"> {% endcomment %}
+  
+              </div>
+              <div class="field">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                    {% comment %} <input type="password" name="password" id="password"> {% endcomment %}
+  
+              </div>
+              <div class="pass-link"><a href="{% url 'password-change'%}">Forgot password?</a></div>
+              <div class="field btn">
+                <div class="btn-layer"></div>
+                <input type="submit" value="Login">
+              </div>
+              <div class="signup-link">Not a member? <a href="{% url 'signup'%}">Signup now</a></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
 </body>
 </html>

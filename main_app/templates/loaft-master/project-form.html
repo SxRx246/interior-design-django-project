@@ -26,56 +26,67 @@
 <body id="service">
 
     <!-- ================Offcanvus Menu Area =================-->
-    <div class="side_menu">
-        <ul class="list menu_right">
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-            <li>
-                <a href="about-us.html">About</a>
-            </li>
-            <li>
-                <a href="#">Works</a>
-                <ul class="list">
-                    <li>
-                        <a href="project.html">Project</a>
-                    </li>
-                    <li>
-                        <a href="project-details.html">Project Details</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="service.html">Service</a>
-            </li>
-            <li>
-                <a href="#">Pages</a>
-                <ul class="list">
-                    <li>
-                        <a href="elements.html">Elements</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Blog</a>
-                <ul class="list">
-                    <li>
-                        <a href="blog.html">Blog</a>
-                    </li>
-                    <li>
-                        <a href="single-blog.html">Blog Details</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="contact.html">Contact</a>
-            </li>
-        </ul>
+    {% include "base.html" %}
+
+    {% comment %} {% if logged_in_user.is_authenticated %}
+    <div class="row  d-flex align-items-center justify-content-center" style='margin:40px'>
+        <h4>Welcome {{logged_in_user.first_name}}, You are{% if logged_in_user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{logged_in_user.role}}</h4>
     </div>
+    {% endif %}
+	<div class="side_menu">
+        
+		<ul class="list menu_right">
+			<li>
+				<a href="{%url 'home'%}">Home</a>
+			</li>
+        {% if logged_in_user.is_authenticated %}
+			<li>
+				<a href="{% url 'about-us'%}">About</a>
+			</li>
+            <li>
+                <a href="{% url 'project-list'%}">Project</a>
+            </li>
+            {% if project %}
+                <li>
+                    <a href="{% url 'project-detail' project.id %}">Project Details</a>
+                </li>
+                <li>
+                    <a href="{% url 'update-project' project.id %}">Update Project</a>
+                </li>
+            {% endif %}
+		
+			{% if logged_in_user.role == user.Role.ADMIN %}
+				<li>
+					<a href="{% url 'user-list'%}">User</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{% url 'user-list' %}">Designer</a>
+				</li>
+			{% endif %}
+
+            <form action="/auth/logout/" method="post">
+            {% csrf_token %}
+            <button class="genric-btn danger radius">Logout</button>
+            </form>
+
+        {% else %}
+            <li>
+                <a href="{% url 'signup' %}">signup</a>
+            </li>
+
+            <form action="/auth/login/" method="post">
+                {% csrf_token %}
+                <button class="genric-btn info radius" >login</button>
+            </form>
+
+		</ul>
+        {% endif %}
+	</div> {% endcomment %}
     <!--================End Offcanvus Menu Area =================-->
 
     <!--================Header Menu Area =================-->
-    <header class="header_area home_menu">
+    {% comment %} <header class="header_area home_menu">
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
@@ -123,7 +134,7 @@
                 </div>
             </nav>
         </div>
-    </header>
+    </header> {% endcomment %}
     <!--================Header Menu Area =================-->
 
     <!--================Canvus Menu Area =================-->
@@ -166,9 +177,15 @@
                 <div class="page_link">
 					{% comment %} <a href="{% url 'home'%}">Home</a> {% endcomment %}
 					{% comment %} <a href="#">work</a> {% endcomment %}
-					<a href="{%url 'project-list'%}">Project</a>
-					<a href="{% url 'project-detail' project.id %}">Project Details</a>
-					<a href="{% url 'update-project' project.id %}">Update Project</a>
+                    
+                    {% if project %}
+					    <a href="{% url 'project-list'%}">Project</a>
+                        <a href="{% url 'project-detail' project.id %}">Project Details</a>
+                        <a href="{% url 'update-project' project.id %}">Update Project</a>
+                    {% else %}
+                        <a href="{% url 'home'%}">home</a>
+                        <a href="{% url 'project-list'%}">Project</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

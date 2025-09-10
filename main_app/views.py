@@ -339,9 +339,44 @@ class HomepageView(ListView):
         projects = context['projects']
         context['left_projects'] = projects[:1]
         context['right_projects'] = projects[1:3]
+        
+        user = self.request.user
+        context["logged_in_user"] = user
+        # print(self.request.user)
+        # print(self.request.user.role)
+        
+        if user.is_authenticated:
+            print(user)
+            print(user.role)  # Only if user is authenticated
+            context['user_role'] = user.role
+        else:
+            print("AnonymousUser")
+            context['user_role'] = None
+  
         return context
     
 class AboutView(TemplateView):
     template_name = 'loaft-master/about-us.html'
     
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)    
+        
+        # context["logged_in_user"] = self.request.user
+        # print(self.request.user)
+        # print(self.request.user.role)
+        user = self.request.user
+        context["logged_in_user"] = user
+        # print(self.request.user)
+        # print(self.request.user.role)
+        
+        if user.is_authenticated:
+            print(user)
+            print(user.role)  # Only if user is authenticated
+            context['user_role'] = user.role
+        else:
+            print("AnonymousUser")
+            context['user_role'] = None
+  
+        return context
+        
+        return context

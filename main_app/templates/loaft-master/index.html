@@ -23,54 +23,64 @@
 </head>
 
 <body>
+	{% include "base.html" %}
 
 	<!-- ================Offcanvus Menu Area =================-->
+    {% comment %} {% if logged_in_user.is_authenticated %}
+    <div class="row  d-flex align-items-center justify-content-center" style='margin:40px'>
+        <h4>Welcome {{logged_in_user.first_name}}, You are{% if logged_in_user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{logged_in_user.role}}</h4>
+    </div>
+    {% endif %}
 	<div class="side_menu">
+        
 		<ul class="list menu_right">
 			<li>
-				<a href="index.html">Home</a>
+				<a href="{%url 'home'%}">Home</a>
 			</li>
+        {% if logged_in_user.is_authenticated %}
 			<li>
-				<a href="about-us.html">About</a>
+				<a href="{% url 'about-us'%}">About</a>
 			</li>
-			<li>
-				<a href="#">Works</a>
-				<ul class="list">
-					<li>
-						<a href="project.html">Project</a>
-					</li>
-					<li>
-						<a href="project-details.html">Project Details</a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<a href="service.html">Service</a>
-			</li>
-			<li>
-				<a href="#">Pages</a>
-				<ul class="list">
-					<li>
-						<a href="elements.html">Elements</a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<a href="#">Blog</a>
-				<ul class="list">
-					<li>
-						<a href="blog.html">Blog</a>
-					</li>
-					<li>
-						<a href="single-blog.html">Blog Details</a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<a href="contact.html">Contact</a>
-			</li>
+            <li>
+                <a href="{% url 'project-list'%}">Project</a>
+            </li>
+            {% if project %}
+                <li>
+                    <a href="{% url 'project-detail' project.id %}">Project Details</a>
+                </li>
+                <li>
+                    <a href="{% url 'update-project' project.id %}">Update Project</a>
+                </li>
+            {% endif %}
+		
+			{% if logged_in_user.role == user.Role.ADMIN %}
+				<li>
+					<a href="{% url 'user-list'%}">User</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{% url 'user-list' %}">Designer</a>
+				</li>
+			{% endif %}
+
+            <form action="/auth/logout/" method="post">
+            {% csrf_token %}
+            <button class="genric-btn danger radius">Logout</button>
+            </form>
+
+        {% else %}
+            <li>
+                <a href="{% url 'signup' %}">signup</a>
+            </li>
+
+            <form action="/auth/login/" method="post">
+                {% csrf_token %}
+                <button class="genric-btn info radius" >login</button>
+            </form>
+
 		</ul>
-	</div>
+        {% endif %}
+	</div> {% endcomment %}
 	<!--================End Offcanvus Menu Area =================-->
 
 	<!--================Canvus Menu Area =================-->
@@ -193,14 +203,14 @@
                       View Details
                       <img src="{% static 'img/cnext.png' %}" alt="" />
                     </a>
-                    <div class="row d-flex align-items-center justify-content">
+                    <div class="row d-flex align-items-center justify-content" style="margin-top: 10px;">
                       {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
                         {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
                           <br>
                           <br>
                           <form action="/projects/{{project.id}}/edit">
                             {% csrf_token %}
-                            <button class="genric-btn primary radius">Edit</button>
+                            <button class="genric-btn primary radius" style="margin-right: 20px;">Edit</button>
                           </form>
                           {% comment %} </div> {% endcomment %}
                           {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
@@ -242,12 +252,12 @@
                       View Details
                       <img src="{% static 'img/cnext.png' %}" alt="" />
                     </a>
-                    <div class="row d-flex align-items-center justify-content">
+                    <div class="row d-flex align-items-center justify-content" style="margin-top: 10px;">
                       {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
                       {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
                         <form action="/projects/{{project.id}}/edit">
                           {% csrf_token %}
-                          <button class="genric-btn primary radius">Edit</button>
+                          <button class="genric-btn primary radius" style="margin-right: 20px;">Edit</button>
                         </form>
                       {% comment %} </div> {% endcomment %}
                       {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
