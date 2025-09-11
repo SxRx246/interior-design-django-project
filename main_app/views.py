@@ -95,13 +95,20 @@ class UserListView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['count_admin'] = User.objects.filter(role=User.Role.ADMIN).count()
-        context['count_designer'] = User.objects.filter(role=User.Role.DESIGNER).count()
-        context['count_customer'] = User.objects.filter(role=User.Role.CUSTOMER).count()
+        # context['count_admin'] = User.objects.filter(role=User.Role.ADMIN).count()
+        # context['count_designer'] = User.objects.filter(role=User.Role.DESIGNER).count()
+        # context['count_customer'] = User.objects.filter(role=User.Role.CUSTOMER).count()
         
         context["logged_in_user"] = self.request.user
         print(self.request.user)
         print(self.request.user.role)
+        
+        designers = User.objects.filter(role=User.Role.DESIGNER)
+        context['designers'] = designers
+        
+        mid_point = len(designers) // 2
+        context['left_designers'] = designers[:mid_point]
+        context['right_designers'] = designers[mid_point:]
         
         return context
     

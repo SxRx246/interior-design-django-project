@@ -1,139 +1,482 @@
-{% comment %} {% extends "base.html" %} {% endcomment %}
 {% load static %}
+{% comment %} {% endblock %} {% endcomment %}
 
-{% block head %}
-<link rel="stylesheet" href="{% static 'style.css' %}">
-{% endblock  %}
+{% comment %} {% load static %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" />
+    <title>Loaft Interior</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/popup/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/scroll/jquery.mCustomScrollbar.css' %}" />
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-{% block content %}
-<div class='container'>
-    {% comment %} <h4>Welcome {{user.first_name}}, You are{% if user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{user.role}}</h4> {% endcomment %}
-    {% if user.role == user.Role.ADMIN %} 
-    <h1>Admins List:</h1>
-    {% if count_admin != 0 %}
-        {% for user in users%}
-        {% if user.role == user.Role.ADMIN%}
-        <div class='single-user-card'>
-            <a href="{% url 'user-detail' user.id %}">
-                <h2>{{user.first_name}} {{user.last_name}}</h2>
-                {% if user.profile_picture %}
-                    <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-                {% else %}
-                    <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-                {% endif %}
-            </a>
-            <form action="{% url 'toggle-role' user.pk %}" method="post" >
-                {% csrf_token %}
-                <button type="submit">Change Role</button>
-            </form>
-            <br>
-                <form action="/users/{{user.id}}/edit">
-                    <button>Edit</button>
-                </form>                
-                <form action="/users/{{user.id}}/delete" method='post'>
-                    {% csrf_token %}
-                    <button>Delete</button>
-                </form>    
-                {% endif  %}
-                    
-        </div>
-        {% endfor %}
-    {% else %}
-    <h2>No Admins Yet</h2>
-    {% endif %}
+    {% comment %} <style> {% endcomment %}
+  
 
-    <h1>Designers List:</h1>
-    {% if count_designer != 0 %}
-        {% for user in users%}
-        {% if user.role == user.Role.DESIGNER%}
-        <div class='single-user-card'>
-                <a href="{% url 'user-detail' user.id %}">
-                    <h2>{{user.first_name}} {{user.last_name}}</h2>
-                    {% if user.profile_picture %}
-                        <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-                    {% else %}
-                        <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-                    {% endif %}
-                </a>
-                <br>
-                <form action="{% url 'toggle-role' user.pk %}" method="post" >
-                    {% csrf_token %}
-                    <button type="submit">Change Role</button>
-                </form>
-                <form action="/users/{{user.id}}/edit">
-                    <button>Edit</button>
-                </form>                
-                <form action="/users/{{user.id}}/delete" method='post'>
-                    {% csrf_token %}
-                    <button>Delete</button>
-                </form>    
-                
-                {% endif  %}
-        </div>
-        {% endfor %}
-    {% else %}
-    <h2>No Designers Yet</h2>
-    {% endif %}
-    <h1>Customer List:</h1>
-    {% if count_customer != 0 %}
-    {% for user in users%}
-    {% if user.role == user.Role.CUSTOMER%}
-    <div class='single-user-card'>
-            <a href="{% url 'user-detail' user.id %}">
-                <h2>{{user.first_name}} {{user.last_name}}</h2>
-                {% if user.profile_picture %}
-                    <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-                {% else %}
-                    <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-                {% endif %}
-            </a>
-            <br>
-            <form action="{% url 'toggle-role' user.pk %}" method="post" >
-                {% csrf_token %}
-                <button type="submit">Change Role</button>
-            </form>
-            <form action="/users/{{user.id}}/edit">
-                <button>Edit</button>
-            </form>   
-            <form action="/users/{{user.id}}/delete" method='post'>
-                {% csrf_token %}
-                <button>Delete</button>
-            </form>   
-        {% endif  %}
+  {% comment %} th{
+    background-color: #ffc73bff;
+  } {% endcomment %}
+{% comment %} </style> {% endcomment %}
+  </head>
+  
+  <body id="project">
+    <!-- ================Offcanvus Menu Area ================= -->
+    {% include "base.html" %}
+    {% comment %} {% if logged_in_user.is_authenticated %}
+    <div class="row  d-flex align-items-center justify-content-center" style='margin:40px'>
+        <h4>Welcome {{logged_in_user.first_name}}, You are{% if logged_in_user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{logged_in_user.role}}</h4>
     </div>
-    {% endfor %}
-    {% else %}
-    <h2>No Customers Yet</h2>
-    {% endif  %}
+    {% endif %}
+	<div class="side_menu">
+        
+		<ul class="list menu_right">
+			<li>
+				<a href="{%url 'home'%}">Home</a>
+			</li>
+        {% if logged_in_user.is_authenticated %}
+			<li>
+				<a href="{% url 'about-us'%}">About</a>
+			</li>
+            <li>
+                <a href="{% url 'project-list'%}">Project</a>
+            </li>
+            {% if project %}
+                <li>
+                    <a href="{% url 'project-detail' project.id %}">Project Details</a>
+                </li>
+                <li>
+                    <a href="{% url 'update-project' project.id %}">Update Project</a>
+                </li>
+            {% endif %}
+		
+			{% if logged_in_user.role == user.Role.ADMIN %}
+				<li>
+					<a href="{% url 'user-list'%}">User</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{% url 'user-list' %}">Designer</a>
+				</li>
+			{% endif %}
 
+            <form action="/auth/logout/" method="post">
+            {% csrf_token %}
+            <button class="genric-btn danger radius">Logout</button>
+            </form>
 
-    {% else %}
-    <h1>Designers List</h1>
-    {% if count_designer != 0 %}
-    {% for user in users%}
-    {% if user.role == user.Role.DESIGNER%}
-    <div class='single-user-card'>
-            <a href="{% url 'user-detail' user.id %}">
-                <h2>{{user.first_name}} {{user.last_name}}</h2>
-                        {% if user.profile_picture %}
-                            <img id='profile-picture' src="{{ user.profile_picture.url}}" alt="Profile Picture">
-                        {% else %}
-                            <img id='profile-picture' src="{% static 'default_profile_picture.jpg'%}" alt="default">
-                        {% endif %}
-            </a>
-            <br>
+        {% else %}
+            <li>
+                <a href="{% url 'signup' %}">signup</a>
+            </li>
 
+            <form action="/auth/login/" method="post">
+                {% csrf_token %}
+                <button class="genric-btn info radius" >login</button>
+            </form>
+
+		</ul>
         {% endif %}
+	</div> {% endcomment %}
+    <!-- ================End Offcanvus Menu Area ================= -->
+
+    <!-- ================Header Menu Area ================= -->
+    {% comment %} <header class="header_area home_menu">
+      <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+              <ul class="nav navbar-nav menu_nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item submenu dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="elements.html">Elements</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item submenu dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="blog.html">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="single-blog.html">Blog Details</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header> {% endcomment %}
+    <!-- ================Header Menu Area ================= -->
+
+    <!-- ================Canvus Menu Area ================= -->
+    <div class="canvus_menu">
+      <div class="container">
+        <div class="float-right">
+          <div class="toggle_icon" title="Menu Bar">
+            <span></span>
+          </div>
+        </div>
+      </div>
     </div>
-    {% endfor %} 
-    {% else %}
-    <h2>No Designers Yet</h2>
-    {% endif %} 
+    <!-- ================End Canvus Menu Area ================= -->
 
-    {% endif %} 
+    <!-- ================ Banner Area ================= -->
+    <section class="common_banner_area">
+      <div class="container-fluid">
+        <div class="row d-flex align-items-center justify-content-center">
+          <div class="col-lg-8 header-left">
+            <div class="">
+              <img class="img-fluid w-100" src="{% static 'img/banner/common-banner.jpg' %}" alt="" />
+            </div>
+          </div>
 
+          <div class="header-right col-lg-4">
+            {% if logged_in_user.role == user.Role.ADMIN %}
+				<h1>User</h1>
+			{% else %}
+                <h1>Designer</h1>
+			{% endif %}
+            {% comment %} <p class="pt-20">If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p> {% endcomment %}
+          </div>
+          <div class="page_link">
+            <a href="{% url 'home'%}">Home</a>
+            {% comment %} <a href="#">work</a> {% endcomment %}
+            {% if logged_in_user.role == user.Role.ADMIN %}
+					<a href="{% url 'user-list'%}">User</a>
+			{% else %}
+					<a href="{% url 'user-list' %}">Designer</a>
+			{% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ================End Banner Area ================= -->
 
-</div>
-{% comment %} <a href="{% url 'admin-panel' %}">Admin</a> {% endcomment %}
-{% comment %} {% endif %} {% endcomment %}
-{% endblock  %}
+    <!-- ================ Start Project Area ================= -->
+    <section class="section_gap project-area">
+    {% if logged_in_user.role != logged_in_user.Role.ADMIN %}
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="main_title">
+              <h1>
+                We are <span>Interior Visionaries</span><br />
+                Here are some of Our <br />
+                <span>Latest Works</span>
+              </h1>
+              <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
+              <img src="{% static 'img/next.png' %}" alt="" />
+            </div>
+
+  <!-- Show designers as clickable cards for non-admin users -->
+  {% comment %} <div class="designer-cards" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    {% for user in users %}
+      {% if user.role == user.Role.DESIGNER %}
+        <a href="/users/{{ user.id }}/" style="text-decoration: none; color: inherit; width: 220px; border: 1px solid #ddd; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: box-shadow 0.3s;">
+          {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;"/>
+          {% else %}
+            <img src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;"/>
+          {% endif %}
+          <h3 style="margin: 0 0 10px 0; font-weight: 700; text-align: center;">{{ user.first_name }} {{ user.last_name }}</h3>
+          <span class="role-badge role-designer" style="font-size: 1em; padding: 6px 14px;">{{ user.role }}</span>
+        </a>
+      {% endif %}
+    {% empty %}
+      <p>No designers found.</p>
+    {% endfor %}
+  </div> {% endcomment %}
+
+            <!-- single projects -->
+          {% for designer in left_designers %}
+                <div class="single-project">
+                  {% comment %} <img class="img-fluid" src="{% static 'img/project/img1.jpg' %}" alt="" /> {% endcomment %}
+					{% if designer.profile_picture %}
+						<img class="img-fluid" src="{{designer.profile_picture.url}}" alt="{{designer.username}}">
+					{% else %}
+						<img class="img-fluid" src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture">
+					{% endif %}
+                  <div class="project-details">
+                    <p>Designer</p>
+                    <h4>
+                      {{designer.first_name}} {{designer.last_name}} 
+					  {% comment %} <br />
+                      Vintage Style {% endcomment %}
+                    </h4>
+                    <a href="{% url 'user-detail' designer.id %}" class="main_btn1">
+                      View Details
+                      <img src="{% static 'img/cnext.png' %}" alt="" />
+                    </a>
+                  {% if logged_in_user.role == user.Role.DESIGNER and logged_in_user.email == designer.email %} 
+                    <div class="row d-flex align-items-center justify-content">
+                      {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+                        {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                          <br>
+                          <br>
+                          <form action="/projects/{{project.id}}/edit">
+                            {% csrf_token %}
+                            <button class="genric-btn primary radius" style='margin-right: 20px;'>Edit</button>
+                          </form>
+                          {% comment %} </div> {% endcomment %}
+                          {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                            <form action="/projects/{{project.id}}/delete" method='post'>
+                              {% csrf_token %}
+                              <button class="genric-btn danger radius">Delete</button>
+                            </form>  
+                            {% comment %} </div> {% endcomment %}
+                            {% comment %} </div> {% endcomment %}
+                      </div>
+                    {% endif %}
+                    </div>
+                  </div>
+                {% comment %} <a href="#" class="main_btn">
+                  Load More Preojects
+                  <img src="img/next.png" alt="" />
+                </a> {% endcomment %}
+            {% endfor %}
+            <br>
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+			{% for project in right_projects %}
+				<!-- single projects -->
+				<div class="single-project">
+				{% comment %} <img class="img-fluid" src="{% static 'img/project/img2.jpg' %}" alt="" /> {% endcomment %}
+				{% if project.pictures %}
+					<img class="img-fluid" src="{{project.pictures.url}}" alt="{{project.name}}">
+				{% else %}
+					<img class="img-fluid" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
+				{% endif %}
+				<div class="project-details">
+					<p>{{project.designer}}</p>
+					<h4>
+					{{project.name}}
+					 {% comment %} <br />
+					Vintage Style {% endcomment %}
+					</h4>
+                    <a href="{% url 'project-detail' project.id %}" class="main_btn1">
+                      View Details
+                      <img src="{% static 'img/cnext.png' %}" alt="" />
+                    </a>
+                    <div class="row d-flex align-items-center justify-content">
+                      {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
+                      {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                        {% comment %} </div> {% endcomment %}
+                        {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                          <form action="/projects/{{project.id}}/edit">
+                            {% csrf_token %}
+                            <button class="genric-btn primary radius" style='margin-right:20px;'>Edit</button>
+                          </form>
+                        <form action="/projects/{{project.id}}/delete" method='post'>
+                          {% csrf_token %}
+                          <button class="genric-btn danger radius">Delete</button>
+                        </form>  
+                      {% comment %} </div> {% endcomment %}
+                      {% comment %} </div> {% endcomment %}
+                    </div>
+				</div>
+				</div>
+            <br>
+			{% endfor %}
+            <!-- single projects -->
+            {% comment %} <div class="single-project">
+              <img class="img-fluid" src="{% static 'img/project/img3.jpg' %}" alt="" />
+              <div class="project-details">
+                <p>Smart Kitchen Setup</p>
+                <h4>
+                  Smart Kitchen Setup with <br />
+                  Vintage Style
+                </h4>
+                <a href="#" class="main_btn1">
+                  View Details
+                  <img src="{% static 'img/cnext.png' %}" alt="" />
+                </a>
+              </div>
+              </div> {% endcomment %}
+            </div>
+        {% endif %}
+    </div> 
+          </div>
+
+      </div>
+      <div class="container">
+<h1>Users List</h1>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+          <td>{{ user.username }}</td>
+          <td class="name-cell">
+            <a href="{%url 'user-detail' user.id %}" style='color:#666'>
+          {% if user.profile_picture %}
+            <img class="profile-pic" src="{{ user.profile_picture.url }}" alt="Profile Picture">
+          {% else %}
+            <img class="profile-pic" src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture">
+          {% endif %}
+          {{ user.first_name }} {{ user.last_name }}
+        </td>
+        <td>{{ user.email }}</td>
+        <td>
+          <span class="role-badge
+            {% if user.role == user.Role.ADMIN %}role-admin
+            {% elif user.role == user.Role.DESIGNER %}role-designer
+            {% elif user.role == user.Role.CUSTOMER %}role-customer
+            {% else %}role-other
+            {% endif %}
+          ">
+            {{ user.role }}
+          </span>
+        </td>
+        <td>
+          {% if logged_in_user.role == request.user.Role.ADMIN %}
+          <a href="{% url 'user-detail' user.id %}" title="View Details">
+            <i class="fa fa-external-link" aria-hidden="true"></i>
+          </a>
+          <form action="{% url 'toggle-role' user.pk %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="action-icon" title="Change Role" type="submit">🔄</button>
+          </form>
+          {% endif %}
+          <form action="/users/{{ user.id }}/edit" method="get" style="display:inline;">
+            <button class="action-icon" title="Edit">&#9998;</button>
+          </form>
+          <form action="/users/{{ user.id }}/delete" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="action-icon" title="Delete" type="submit">&times;</button>
+          </form>
+        </td>
+    </a>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    </section>
+    <!-- ================ End Project Area ================= -->
+
+    <!-- ================ start footer Area ================= -->
+    <footer class="footer_area section_gap">
+      <div class="container">
+        <div class="row footer_inner">
+          <div class="col-lg-5 col-sm-6">
+            <aside class="f_widget ab_widget">
+              <div class="f_title">
+                <h3>About Me</h3>
+              </div>
+              <p>Do you want to be even more successful? Learn to love learning and growth. The more effort you put into improving your skills,</p>
+              <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>
+                                  document.write(new Date().getFullYear())
+                                </script>All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
+            </aside>
+          </div>
+          <div class="col-lg-5 col-sm-6">
+            <aside class="f_widget news_widget">
+              <div class="f_title">
+                <h3>Newsletter</h3>
+              </div>
+              <p>Stay updated with our latest trends</p>
+              <div id="mc_embed_signup">
+                <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative">
+                  <div class="input-group d-flex flex-row">
+                    <input name="EMAIL" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email" />
+                    <button class="btn sub-btn"><span class="lnr lnr-arrow-right"></span></button>
+                  </div>
+                  <div class="mt-10 info"></div>
+                </form>
+              </div>
+            </aside>
+          </div>
+          <div class="col-lg-2">
+            <aside class="f_widget social_widget">
+              <div class="f_title">
+                <h3>Follow Me</h3>
+              </div>
+              <p>Let us be social</p>
+              <ul class="list">
+                <li>
+                  <a href="#"><i class="fa fa-facebook"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-dribbble"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-behance"></i></a>
+                </li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- ================ End footer Area ================= -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/stellar.js' %}"></script>
+    <script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/isotope-min.js' %}"></script>
+    <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <script src="{% static 'vendors/popup/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'vendors/swiper/js/swiper.min.js' %}"></script>
+    <script src="{% static 'vendors/scroll/jquery.mCustomScrollbar.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+  </body>
+</html>

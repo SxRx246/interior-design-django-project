@@ -1,4 +1,4 @@
-{% comment %} {% extends "base.html" %} {% endcomment %}
+{% comment %} {% extends "base.html" %}
 {% load static %}
 
 {% block head %}
@@ -23,10 +23,475 @@
         <br><br>
         {% comment %} <label for="profile_picture">Profile Picture:</label>
         <input value="{{user.profile_picture}}" name='profile_picture' id='profile_picture' type="file"> {% endcomment %}
-        {{form.as_p}}
+        {% comment %} {{form.as_p}} {% endcomment %}
+        {% comment %} {{ form.profile_picture }}
         <br><br>
         <a href="{% url 'password-change' %}">Password Change</a>
         <br>
         <button>Submit</button>
     </form>
-{% endblock  %}
+{% endblock  %} {% endcomment %} 
+
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.png" type="image/png">
+	<title>Loaft Interior</title>
+	<!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/popup/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/scroll/jquery.mCustomScrollbar.css' %}" />
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body id="service">
+
+    <!-- ================Offcanvus Menu Area =================-->
+    {% include "base.html" %}
+
+    {% comment %} {% if logged_in_user.is_authenticated %}
+    <div class="row  d-flex align-items-center justify-content-center" style='margin:40px'>
+        <h4>Welcome {{logged_in_user.first_name}}, You are{% if logged_in_user.role == user.Role.ADMIN%} an {% else%} a {% endif %} {{logged_in_user.role}}</h4>
+    </div>
+    {% endif %}
+	<div class="side_menu">
+        
+		<ul class="list menu_right">
+			<li>
+				<a href="{%url 'home'%}">Home</a>
+			</li>
+        {% if logged_in_user.is_authenticated %}
+			<li>
+				<a href="{% url 'about-us'%}">About</a>
+			</li>
+            <li>
+                <a href="{% url 'project-list'%}">Project</a>
+            </li>
+            {% if project %}
+                <li>
+                    <a href="{% url 'project-detail' project.id %}">Project Details</a>
+                </li>
+                <li>
+                    <a href="{% url 'update-project' project.id %}">Update Project</a>
+                </li>
+            {% endif %}
+		
+			{% if logged_in_user.role == user.Role.ADMIN %}
+				<li>
+					<a href="{% url 'user-list'%}">User</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{% url 'user-list' %}">Designer</a>
+				</li>
+			{% endif %}
+
+            <form action="/auth/logout/" method="post">
+            {% csrf_token %}
+            <button class="genric-btn danger radius">Logout</button>
+            </form>
+
+        {% else %}
+            <li>
+                <a href="{% url 'signup' %}">signup</a>
+            </li>
+
+            <form action="/auth/login/" method="post">
+                {% csrf_token %}
+                <button class="genric-btn info radius" >login</button>
+            </form>
+
+		</ul>
+        {% endif %}
+	</div> {% endcomment %}
+    <!--================End Offcanvus Menu Area =================-->
+
+    <!--================Header Menu Area =================-->
+    {% comment %} <header class="header_area home_menu">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="about-us.html">About</a>
+                            </li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="elements.html">Elements</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Blog</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="blog.html">Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="single-blog.html">Blog Details</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.html">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header> {% endcomment %}
+    <!--================Header Menu Area =================-->
+
+    <!--================Canvus Menu Area =================-->
+    <div class="canvus_menu">
+        <div class="container">
+            <div class="float-right">
+                <div class="toggle_icon" title="Menu Bar">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================End Canvus Menu Area =================-->
+
+    <!--================ Banner Area =================-->
+    <section class="common_banner_area">
+        <div class="container-fluid">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-lg-8 header-left">
+                    <div class="">
+                        {% comment %} <img class="img-fluid w-100" src="{% static 'img/banner/common-banner.jpg' %}" alt=""> {% endcomment %}
+                        {% comment %} {% if user.profile_picture %}
+                            <img class="img-fluid" src="{{user.profile_picture.url}}" alt="{{user.first_name}} {{user.last_name}}">
+                        {% else %}
+                            <img class="img-fluid" src="{% static 'default_profile_picture.jpg' %}" alt="default_profile_picture">
+                        {% endif %} {% endcomment %}
+
+                        {% if user.profile_picture %}
+                            <img class="big-profile-pic" src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                            <img class="big-profile-pic" src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture">
+                        {% endif %} 
+                    </div>
+                </div>
+
+                <div class="header-right col-lg-4">
+                    {% comment %} <h1>
+                        Contact Us
+                    </h1> {% endcomment %}
+                    {% comment %} <div class="">
+                        <img class="img-fluid w-100" src="{% static 'img/banner/common-banner.jpg' %}" alt="">
+                        {% if user.profile_picture %}
+                            <img class="img-fluid" src="{{user.profile_picture.url}}" alt="{{user.first_name}} {{user.last_name}}">
+                        {% else %}
+                            <img class="img-fluid" src="{% static 'default_profile_picture.jpg' %}" alt="default_profile_picture">
+                        {% endif %}
+                    </div> {% endcomment %}
+                    <h1>Edit</h1>
+                    
+                    <p class="pt-20">
+                        {{ user.frist_name }} {{user.last_name}} Details
+                    </p>
+                </div>
+                <div class="page_link">
+					{% comment %} <a href="{% url 'home'%}">Home</a> {% endcomment %}
+					{% comment %} <a href="#">work</a> {% endcomment %}
+                    
+                    {% comment %} {% if user.is_authenticated %} {% endcomment %}
+                    {% comment %} {% if logged_in_user.role == user.Role.ADMIN%} {% endcomment %}
+					    <a href="{% url 'user-list'%}">User</a>
+                        <a href="{% url 'user-detail' user.id %}">User Details</a>
+                        <a href="{% url 'update-user' user.id %}">Update User</a>
+                    {% comment %} {% else %}
+                        <a href="{% url 'home'%}">home</a>
+                        <a href="{% url 'project-list'%}">Project</a>
+                    {% endif %} {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Banner Area =================-->
+
+    <!--================Contact Area =================-->
+<!--================Contact Area =================-->
+    <section class="contact_area section_gap">
+        <div class="container">
+            {% comment %} 
+            <div id="mapBox" class="mapBox" data-lat="40.701083" data-lon="-74.1522848" data-zoom="13" data-info="PO Box CT16122 Collins Street West, Victoria 8007, Australia."
+                data-mlat="40.701083" data-mlon="-74.1522848">
+            </div> 
+            {% endcomment %}
+            <div class="row">
+                {% comment %} 
+                <div class="col-lg-3">
+                    <div class="contact_info">
+                        <div class="info_item">
+                            <i class="lnr lnr-home"></i>
+                            <h6>California, United States</h6>
+                            <p>Santa monica bullevard</p>
+                        </div>
+                        <div class="info_item">
+                            <i class="lnr lnr-phone-handset"></i>
+                            <h6><a href="#">00 (440) 9865 562</a></h6>
+                            <p>Mon to Fri 9am to 6 pm</p>
+                        </div>
+                        <div class="info_item">
+                            <i class="lnr lnr-envelope"></i>
+                            <h6><a href="#">support@colorlib.com</a></h6>
+                            <p>Send us your query anytime!</p>
+                        </div>
+                    </div>
+                </div> 
+                {% endcomment %}
+                {% comment %} id="contactForm" novalidate="novalidate" {% endcomment %}
+                <div class="col-lg-9">
+                    <form class="row contact_form" enctype='multipart/form-data' method="post">
+                        {% csrf_token %}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" value="{{user.username}}">
+                                {% if form.username.errors %}
+                                    <div class="error btn-outline-danger">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name}}">
+
+                                {% comment %} <textarea class="form-control" name="first_name" id="first_name" placeholder="Enter description">{{ project.description }}</textarea> {% endcomment %}
+                                {% if form.first_name.errors %}
+                                    <div class="error btn-outline-danger">{{ form.first_name.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name}}">
+
+                                {% comment %} <textarea class="form-control" name="first_name" id="first_name" placeholder="Enter description">{{ project.description }}</textarea> {% endcomment %}
+                                {% if form.last_name.errors %}
+                                    <div class="error btn-outline-danger">{{ form.last_name.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" id="email" name="email" value="{{ user.email}}">
+                                {% if form.email.errors %}
+                                    <div class="error btn-outline-danger">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                            {% comment %} <div class="form-group">
+                                <label for="designer">Designer</label>
+                                <br>
+                                <select name="designer" id="designer">
+                                    {% if user.role == user.Role.ADMIN %}
+                                        {% for designer in designers %}
+                                            <option value="{{ designer.id }}" {% if form.designer.value == designer.id %} selected {% endif %}>
+                                                {{ designer.first_name }} {{ designer.last_name }}
+                                            </option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                    {% endif %}
+                                </select>
+                                {% if form.designer.errors %}
+                                    <div class="error btn-outline-danger">{{ form.designer.errors }}</div>
+                                {% endif %}
+                            </div> {% endcomment %}
+                            <div class="form-group">
+                                <br>
+                                <br>
+                                {% comment %} 
+                                <input type="file" id="pictures" name="pictures" placeholder="Enter pictures">
+                                
+                                {% if project.pictures %}
+                                <p>Current Picture: {{ project.pictures }}</p> <!-- Display the current picture name here -->
+                                {% else %}
+                                <p>No current picture uploaded.</p>
+                                {% endif %} {% endcomment %}
+                                
+                                <label for="profile_picture">Profile Picture:</label>
+                                <br>
+                                {{form.profile_picture}}
+                                {% if form.profile_picture.errors %}
+                                    <div class="error btn-outline-danger">{{ form.profile_picture.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% comment %} {% if form.errors %}
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %} {% endcomment %}
+                        <br><br>
+                        <a href="{% url 'password-change' %}">Password Change</a>
+                        <br>
+                        <div class="col-md-12 text-right">
+                            <button type="submit" value="submit" class="btn submit_btn">Update</button>
+                        </div>
+
+                    </form> <!-- Closing form tag added here -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Contact Area =================-->
+
+    <!--================ start footer Area  =================-->
+    <footer class="footer_area section_gap">
+        <div class="container">
+            <div class="row footer_inner">
+                <div class="col-lg-5 col-sm-6">
+                    <aside class="f_widget ab_widget">
+                        <div class="f_title">
+                            <h3>About Me</h3>
+                        </div>
+                        <p>Do you want to be even more successful? Learn to love learning and growth. The more effort
+                            you put into
+                            improving your skills,</p>
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </aside>
+                </div>
+                <div class="col-lg-5 col-sm-6">
+                    <aside class="f_widget news_widget">
+                        <div class="f_title">
+                            <h3>Newsletter</h3>
+                        </div>
+                        <p>Stay updated with our latest trends</p>
+                        <div id="mc_embed_signup">
+                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get" class="subscribe_form relative">
+                                <div class="input-group d-flex flex-row">
+                                    <input name="EMAIL" placeholder="Enter email address" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                    <button class="btn sub-btn"><span class="lnr lnr-arrow-right"></span></button>
+                                </div>
+                                <div class="mt-10 info"></div>
+                            </form>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-lg-2">
+                    <aside class="f_widget social_widget">
+                        <div class="f_title">
+                            <h3>Follow Me</h3>
+                        </div>
+                        <p>Let us be social</p>
+                        <ul class="list">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+
+    <!--================Contact Success and Error message Area =================-->
+    <div id="success" class="modal modal-message fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h2>Thank you</h2>
+                    <p>Your message is successfully sent...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals error -->
+
+    <div id="error" class="modal modal-message fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <h2>Sorry !</h2>
+                    <p> Something went wrong </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================End Contact Success and Error message Area =================-->
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/stellar.js' %}"></script>
+    <script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendors/isotope/isotope-min.js' %}"></script>
+    <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <script src="{% static 'vendors/popup/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'vendors/swiper/js/swiper.min.js' %}"></script>
+    <script src="{% static 'vendors/scroll/jquery.mCustomScrollbar.js' %}"></script>
+    <!-- contact js -->
+    <script src="{% static 'js/jquery.form.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+    <!--gmaps Js-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script src="{% static 'js/gmaps.min.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+</body>
+
+</html>

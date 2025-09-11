@@ -1,50 +1,69 @@
-body{
-    background-color: rgb(127, 229, 255);
-    /* background-color: rgb(235, 32, 32); */
-}
-
-#profile-picture{
-    width: 200px;
-    height: 200px;
-    border-radius: 200px;
-    padding: 30px;
-}
-
-a{
-    text-decoration: none;
-    color: rgb(226, 43, 162);
-}
-
-.container{
-    text-align: center;
-    align-items: center;
-}
-
-button{
-    background-color: rgb(218, 66, 124);
-    color: white;
-    padding: 5px;
-    font-size: 15px;
-    margin: 5px;
-}
-
-.single-user-card{
-    background-color: rgb(0, 148, 193);
-    margin: 20px;
-    border-radius: 30px;
-    border: 10px cadetblue solid;
-    padding: 20px;
-    text-align: center;
-    width: 60%;
-}
-
-nav{
-  display: flex;
-  justify-content: center; 
-}
-
-.project-picture{
-    height: 50%;
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+  .user-table th, .user-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .user-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+  }
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .big-profile-pic {
     width: 50%;
-    border: 2px black solid;
-}
+    height: 50%;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+    margin-left: 25%;
+  }
+  .name-cell {
+    display: flex;
+    align-items: center;
+  }
+  .role-badge {
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9em;
+    display: inline-block;
+    color: #fff;
+  }
+  .role-admin {
+    background-color: #000000; /* Red */
+  }
+  .role-designer {
+    background-color: #ffeb3b; /* Yellow */
+    color: #5d4037; /* Dark text on yellow */
+  }
+  .role-customer {
+    background-color: #005f9e; /* Blue */
+  }
+  .role-other {
+    background-color: #95a5a6; /* Grey */
+    color: #fff;
+  }
+  .action-icon {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.2em;
+    margin-left: 10px;
+    color: #666;
+  }
+  .action-icon:hover {
+    color: #000;
+  }
