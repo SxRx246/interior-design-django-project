@@ -227,7 +227,7 @@
 
 						{% comment %} <a href="#" class="genric-btn danger radius">Danger</a> {% endcomment %}
 						<br>
-                    {% if logged_in_user.role == user.Role.ADMIN or logged_in_user.email == user.email %} 
+                    {% if logged_in_user.email == user.email %} 
 						<div class="row d-flex align-items-center justify-content">
 							{% comment %} <div class="button-group-area mt-40"> {% endcomment %}
 							{% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
@@ -235,16 +235,26 @@
 									{% csrf_token %}
 									<button class="genric-btn primary radius" style="margin-right: 30px;">Edit</button>
 								</form>
-							{% comment %} </div> {% endcomment %}
-							{% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
-                                <form action="{% url 'toggle-role' user.pk %}" method="post" style="margin-right: 30px;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="genric-btn info radius">Change Role</button>
-                                </form>
 								<form action="{% url 'delete-user' user.id %}" method='post'>
 									{% csrf_token %}
 									<button class="genric-btn danger radius">Delete</button>
-								</form>  
+								</form> 
+							{% comment %} </div> {% endcomment %}
+							{% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+								{% elif logged_in_user.role == user.Role.ADMIN %}
+								<form action="{% url 'update-user' user.id %}">
+									{% csrf_token %}
+									<button class="genric-btn primary radius" style="margin-right: 30px;">Edit</button>
+								</form>	
+								<form action="{% url 'toggle-role' user.pk %}" method="post" style="margin-right: 30px;">
+										{% csrf_token %}
+										<button type="submit" class="genric-btn info radius">Change Role</button>
+									</form>
+									<form action="{% url 'delete-user' user.id %}" method='post'>
+										{% csrf_token %}
+										<button class="genric-btn danger radius">Delete</button>
+									</form>  
+								{% comment %} {% endif %} {% endcomment %}
 							{% comment %} </div> {% endcomment %}
 							{% comment %} </div> {% endcomment %}
 						</div>

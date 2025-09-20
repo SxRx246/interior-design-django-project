@@ -193,7 +193,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 col-md-6">
-            <div class="main_title">
+            {% comment %} <div class="main_title">
               <h1>
                 We are <span>Interior Visionaries</span><br />
                 Here are some of Our <br />
@@ -201,7 +201,7 @@
               </h1>
               <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.</p>
               <img src="{% static 'img/next.png' %}" alt="" />
-            </div>
+            </div> {% endcomment %}
 
   <!-- Show designers as clickable cards for non-admin users -->
   {% comment %} <div class="designer-cards" style="display: flex; flex-wrap: wrap; gap: 20px;">
@@ -226,11 +226,11 @@
           {% for designer in left_designers %}
                 <div class="single-project">
                   {% comment %} <img class="img-fluid" src="{% static 'img/project/img1.jpg' %}" alt="" /> {% endcomment %}
-					{% if designer.profile_picture %}
-						<img class="img-fluid" src="{{designer.profile_picture.url}}" alt="{{designer.username}}">
-					{% else %}
-						<img class="img-fluid" src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture">
-					{% endif %}
+                  {% if designer.profile_picture %}
+                    <img class="img-fluid" src="{{designer.profile_picture.url}}" alt="{{designer.username}}">
+                  {% else %}
+                    <img class="img-fluid" src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture">
+                  {% endif %}
                   <div class="project-details">
                     <p>Designer</p>
                     <h4>
@@ -248,13 +248,13 @@
                         {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
                           <br>
                           <br>
-                          <form action="/projects/{{project.id}}/edit">
+                          <form action="{%url 'update-user' user.id%}">
                             {% csrf_token %}
                             <button class="genric-btn primary radius" style='margin-right: 20px;'>Edit</button>
                           </form>
                           {% comment %} </div> {% endcomment %}
                           {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
-                            <form action="/projects/{{project.id}}/delete" method='post'>
+                            <form action="{% url 'delete-user' user.id%}" method='post'>
                               {% csrf_token %}
                               <button class="genric-btn danger radius">Delete</button>
                             </form>  
@@ -268,49 +268,53 @@
                   Load More Preojects
                   <img src="img/next.png" alt="" />
                 </a> {% endcomment %}
-            {% endfor %}
-            <br>
-          </div>
+                {% endfor %}
+                <br>
+              </div>
 
           <div class="col-lg-6 col-md-6">
-			{% for project in right_projects %}
+			{% for designer in right_designers %}
 				<!-- single projects -->
-				<div class="single-project">
-				{% comment %} <img class="img-fluid" src="{% static 'img/project/img2.jpg' %}" alt="" /> {% endcomment %}
-				{% if project.pictures %}
-					<img class="img-fluid" src="{{project.pictures.url}}" alt="{{project.name}}">
-				{% else %}
-					<img class="img-fluid" src="{% static 'black-and-white-illustration-of-a-living-room-vector.jpg' %}" alt="default-living-room-picture">
-				{% endif %}
-				<div class="project-details">
-					<p>{{project.designer}}</p>
-					<h4>
-					{{project.name}}
-					 {% comment %} <br />
-					Vintage Style {% endcomment %}
-					</h4>
-                    <a href="{% url 'project-detail' project.id %}" class="main_btn1">
+             <div class="single-project">
+                  {% comment %} <img class="img-fluid" src="{% static 'img/project/img1.jpg' %}" alt="" /> {% endcomment %}
+                  {% if designer.profile_picture %}
+                    <img class="img-fluid" src="{{designer.profile_picture.url}}" alt="{{designer.username}}">
+                  {% else %}
+                    <img class="img-fluid" src="{% static 'default_profile_picture.jpg' %}" alt="Default Picture">
+                  {% endif %}
+                  <div class="project-details">
+                    <p>Designer</p>
+                    <h4>
+                      {{designer.first_name}} {{designer.last_name}} 
+					  {% comment %} <br />
+                      Vintage Style {% endcomment %}
+                    </h4>
+                    <a href="{% url 'user-detail' designer.id %}" class="main_btn1">
                       View Details
                       <img src="{% static 'img/cnext.png' %}" alt="" />
                     </a>
+                  {% if logged_in_user.role == user.Role.DESIGNER and logged_in_user.email == designer.email %} 
                     <div class="row d-flex align-items-center justify-content">
                       {% comment %} <div class="button-group-area mt-40"> {% endcomment %}
-                      {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
-                        {% comment %} </div> {% endcomment %}
-                        {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
-                          <form action="/projects/{{project.id}}/edit">
+                        {% comment %} <div class="col-lg-8 header-left"> {% endcomment %}
+                          <br>
+                          <br>
+                          <form action="{%url 'update-user' user.id%}">
                             {% csrf_token %}
-                            <button class="genric-btn primary radius" style='margin-right:20px;'>Edit</button>
+                            <button class="genric-btn primary radius" style='margin-right: 20px;'>Edit</button>
                           </form>
-                        <form action="/projects/{{project.id}}/delete" method='post'>
-                          {% csrf_token %}
-                          <button class="genric-btn danger radius">Delete</button>
-                        </form>  
-                      {% comment %} </div> {% endcomment %}
-                      {% comment %} </div> {% endcomment %}
+                          {% comment %} </div> {% endcomment %}
+                          {% comment %} <div class="col-lg-8 header-right"> {% endcomment %}
+                            <form action="{% url 'delete-user' user.id%}" method='post'>
+                              {% csrf_token %}
+                              <button class="genric-btn danger radius">Delete</button>
+                            </form>  
+                            {% comment %} </div> {% endcomment %}
+                            {% comment %} </div> {% endcomment %}
+                      </div>
+                    {% endif %}
                     </div>
-				</div>
-				</div>
+                  </div>
             <br>
 			{% endfor %}
             <!-- single projects -->
@@ -329,11 +333,12 @@
               </div>
               </div> {% endcomment %}
             </div>
-        {% endif %}
-    </div> 
-          </div>
 
-      </div>
+          </div> 
+        </div>
+        
+      
+      {% else %}
       <div class="container">
 <h1>Users List</h1>
   <table class="user-table">
@@ -394,7 +399,10 @@
       {% endfor %}
     </tbody>
   </table>
+  {% endif %}
+  </div>
     </section>
+
     <!-- ================ End Project Area ================= -->
 
     <!-- ================ start footer Area ================= -->

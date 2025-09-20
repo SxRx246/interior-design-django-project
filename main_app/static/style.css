@@ -23,7 +23,7 @@
   }
   .big-profile-pic {
     width: 50%;
-    height: 50%;
+    height: 50%;  
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
